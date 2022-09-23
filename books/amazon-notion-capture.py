@@ -15,9 +15,6 @@ soup = BeautifulSoup(r.text, 'lxml')
 
 # Get information about the book from the url
 title = soup.select_one('span#productTitle').text
-
-authors = soup.select('.contributorNameID')
-authors = ', '.join([author.text for author in authors])
-
+authors = ', '.join([author.text for author in soup.select('.contributorNameID')])
 image = soup.select_one('img#imgBlkFront, img#ebooksImgBlkFront')['src']
 
