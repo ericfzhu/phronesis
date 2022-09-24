@@ -1,3 +1,2 @@
-amazon-notion-capture
-
-Creates book entries in a Notion database from listings on Amazon
+# amazon-notion-capture
+Captures a book listing on Amazon into a Notion database
