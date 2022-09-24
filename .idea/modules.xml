@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/panopticon.iml" filepath="$PROJECT_DIR$/.idea/panopticon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/phronesis-tools.iml" filepath="$PROJECT_DIR$/.idea/phronesis-tools.iml" />
     </modules>
   </component>
 </project>
