@@ -9,6 +9,6 @@ data = data[data['URL'].notna()]
 for i, r in data.iterrows():
     # if r["URL"] == 'nan':
     #     print('yes')
-    amazon_notion_capture_module.capture(r["URL"])
+    amazon_notion_capture_module.post(r["URL"])
 
 # print(data['URL'].isna().sum())

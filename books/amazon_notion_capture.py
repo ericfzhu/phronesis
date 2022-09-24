@@ -5,6 +5,8 @@ import json
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 
+import notion_endpoint
+
 # Creates book entries in a Notion database from listings on Amazon
 
 load_dotenv()
@@ -25,66 +27,4 @@ title = soup.select_one('span#productTitle').text
 authors = ', '.join([author.text for author in soup.select('.contributorNameID')])
 image = soup.select_one('img#imgBlkFront, img#ebooksImgBlkFront')['src']
 
-endpoint = "https://api.notion.com/v1/pages/"
-headers = {
-    'Content-Type': 'application/json',
-    'Notion-Version': '2022-02-22',
-    'Authorization': f'Bearer {NOTION_API_KEY}'
-}
-data = json.dumps({
-    "parent": {
-        "database_id": NOTION_DATABASE_ID
-    },
-    "properties": {
-        "Cover": {
-            "type": "files",
-            "files": [
-                {
-                    "name": "Cover",
-                    "type": "external",
-                    "external": {
-                        "url": image
-                    }
-                }
-            ]
-        },
-        "Status": {
-            "type": "select",
-            "select": {
-                "name": "To Read"
-            }
-        },
-        "End": {
-            "type": "date",
-            "date": None
-        },
-        "Name": {
-            "type": "title",
-            "title": [
-                {
-                    "type": "text",
-                    "text": {
-                        "content": title
-                    }
-                }
-            ]
-        },
-        "Author": {
-            "type": "rich_text",
-            "rich_text": [
-                {
-                    "type": "text",
-                    "text": {
-                        "content": authors
-                    }
-                }
-            ]
-        },
-        "URL": {
-            "type": "url",
-            "url": url
-        }
-    }
-})
-
-print(requests.request("POST", endpoint, headers=headers, data=data))
+notion_endpoint.post(image, title, authors, url)
