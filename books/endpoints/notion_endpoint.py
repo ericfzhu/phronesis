@@ -70,4 +70,4 @@ def post(image, title, authors, url):
         }
     })
 
-    print(requests.request("POST", endpoint, headers=headers, data=data))
+    return requests.request("POST", endpoint, headers=headers, data=data)
