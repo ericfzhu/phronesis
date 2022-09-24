@@ -1,14 +1,12 @@
 # One off database migration
 
 import pandas as pd
-import amazon_notion_capture_module
+import amazon_notion_capture
 
 data = pd.read_csv('database.csv')
 data = data[data['URL'].notna()]
 
 for i, r in data.iterrows():
-    # if r["URL"] == 'nan':
-    #     print('yes')
-    amazon_notion_capture_module.post(r["URL"])
+    amazon_notion_capture.post(r["URL"])
 
 # print(data['URL'].isna().sum())
