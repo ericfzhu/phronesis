@@ -1,6 +1,7 @@
 # One off database migration
 
 import pandas as pd
+
 import amazon_notion_capture
 
 data = pd.read_csv('database.csv')

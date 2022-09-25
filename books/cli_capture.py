@@ -1,4 +1,5 @@
 import sys
+
 import amazon_notion_capture
 
 url = sys.argv[1]
