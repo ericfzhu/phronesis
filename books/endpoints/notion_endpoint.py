@@ -9,7 +9,8 @@ NOTION_API_KEY = os.environ['NOTION_API_KEY']
 NOTION_DATABASE_ID = os.environ['NOTION_DATABASE_ID']
 
 
-def post(image, title, authors, url):
+# Adds a book into the Notion database
+def post_book(image, title, authors, url):
     endpoint = "https://api.notion.com/v1/pages/"
     headers = {
         'Content-Type': 'application/json',
@@ -71,3 +72,29 @@ def post(image, title, authors, url):
     })
 
     return requests.request("POST", endpoint, headers=headers, data=data)
+
+
+# Gets a list of currently reading books
+def get_currently_reading():
+    endpoint = f'https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}/query'
+    headers = {
+        'Content-Type': 'application/json',
+        'Notion-Version': '2022-02-22',
+        'Authorization': f'Bearer {NOTION_API_KEY}'
+    }
+    data = json.dumps({
+        "filter": {
+            "property": "Status",
+            "select": {
+                "equals": "Reading"
+            }
+        }
+    })
+    response = requests.request("POST", endpoint, headers=headers, data=data).json()
+    # if response is None:
+    #     return 'no books'
+    # else:
+    books = [book['properties']['Name']['title'][0]['plain_text'] for book in response['results']]
+    return books
+
+

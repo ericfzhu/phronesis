@@ -7,4 +7,4 @@ def post(url):
     if "/ref" in url:
         url = url.split("/ref")[0]
     title, authors, image = amazon_books_endpoint.get(url)
-    return notion_endpoint.post(image, title, authors, url)
+    return notion_endpoint.post_book(image, title, authors, url)
