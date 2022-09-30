@@ -12,12 +12,12 @@ def cli():
         "-v",
         "--verbose",
         type=str,
-        default=True,
+        default="True",
         help="Print out status and debug messages",
     )
 
     args = parser.parse_args().__dict__
-    response = amazon_notion_capture.post(args["url"], **args)
+    response = amazon_notion_capture.post(**args)
 
     if args.pop("verbose") == "True":
         print(response)
