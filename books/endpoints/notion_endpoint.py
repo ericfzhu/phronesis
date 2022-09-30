@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Optional
 
 import requests
 from dotenv import load_dotenv
@@ -10,7 +11,7 @@ NOTION_DATABASE_ID = os.environ['NOTION_DATABASE_ID']
 
 
 # Adds a book into the Notion database
-def post_book(image, title, authors, url):
+def post_book(image, title, authors, url, verbose: Optional[bool] = None):
     endpoint = "https://api.notion.com/v1/pages/"
     headers = {
         'Content-Type': 'application/json',

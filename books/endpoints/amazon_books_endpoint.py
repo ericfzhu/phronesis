@@ -1,8 +1,10 @@
+from typing import Optional
+
 import requests
 from bs4 import BeautifulSoup
 
 
-def get(url):
+def get(url, verbose: Optional[bool] = None):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'lxml')
 
