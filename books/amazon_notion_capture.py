@@ -5,6 +5,7 @@ from endpoints import amazon_books_endpoint, notion_endpoint
 
 # Captures a book listing on Amazon into a Notion database
 
+
 def post(url, verbose: Optional[bool] = None):
     if "/ref" in url:
         url = url.split("/ref")[0]
