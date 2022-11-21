@@ -7,6 +7,9 @@ name = "pypi"
 pandas = "*"
 bs4 = "*"
 requests = "*"
+python-dotenv = "*"
+lxml = "*"
+selenium = "*"
 
 [dev-packages]
 
