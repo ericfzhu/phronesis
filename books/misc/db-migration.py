@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-import amazon_notion_capture
+from books.modules import amazon_notion_capture
 
 data = pd.read_csv("database.csv")
 
