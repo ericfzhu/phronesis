@@ -5,13 +5,15 @@ from typing import Optional
 import requests
 from dotenv import load_dotenv
 
+from .utils import GoodReadBook
+
 load_dotenv()
 NOTION_API_KEY = os.environ["NOTION_API_KEY"]
 NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
 
 
 # Adds a book into the Notion database
-def post_book(image, title, authors, url, verbose: Optional[bool] = None):
+def post_book_from_goodreads(book: GoodReadBook, verbose: Optional[bool] = False):
     endpoint = "https://api.notion.com/v1/pages/"
     headers = {
         "Content-Type": "application/json",
@@ -28,7 +30,7 @@ def post_book(image, title, authors, url, verbose: Optional[bool] = None):
                         {
                             "name": "Cover",
                             "type": "external",
-                            "external": {"url": image},
+                            "external": {"url": book.image},
                         }
                     ],
                 },
@@ -36,13 +38,21 @@ def post_book(image, title, authors, url, verbose: Optional[bool] = None):
                 "End": {"type": "date", "date": None},
                 "Name": {
                     "type": "title",
-                    "title": [{"type": "text", "text": {"content": title}}],
+                    "title": [{"type": "text", "text": {"content": book.name}}],
+                },
+                "Num Pages": {
+                    "type": "number",
+                    "number": book.num_pages,
+                },
+                "ISBN": {
+                    "type": "number",
+                    "number": book.isbn,
                 },
                 "Author": {
                     "type": "rich_text",
-                    "rich_text": [{"type": "text", "text": {"content": authors}}],
+                    "rich_text": [{"type": "text", "text": {"content": book.authors}}],
                 },
-                "URL": {"type": "url", "url": url},
+                "URL": {"type": "url", "url": book.url},
             },
         }
     )

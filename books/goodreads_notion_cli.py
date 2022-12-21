@@ -1,8 +1,7 @@
 import argparse
 import logging as log
-from urllib.parse import urlunsplit, urlsplit
 
-from books.modules import goodreads, notion
+from modules import goodreads, notion
 
 
 def cli():
@@ -28,6 +27,7 @@ def cli():
 
     url = args.pop("url")
     data = goodreads.get_book_metadata(url, verbose=verbose)
+    notion.post_book_from_goodreads(data, verbose=verbose)
 
 
 if __name__ == "__main__":

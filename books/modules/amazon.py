@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_book_metadata(url, verbose: Optional[bool] = None):
+def get_book_metadata(url, verbose: Optional[bool] = False):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, "lxml")
 

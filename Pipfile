@@ -11,6 +11,9 @@ python-dotenv = "*"
 lxml = "*"
 validators = "*"
 jupyter = "*"
+selenium = "*"
+scrapy = "*"
+requests-html = "*"
 
 [dev-packages]
 
