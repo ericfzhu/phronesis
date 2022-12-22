@@ -16,8 +16,9 @@ NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
 def post_book_from_goodreads(book: GoodReadBook, verbose: Optional[bool] = False):
     endpoint = "https://api.notion.com/v1/pages/"
     headers = {
+        "accept": "application/json",
         "Content-Type": "application/json",
-        "Notion-Version": "2022-02-22",
+        "Notion-Version": "2022-06-28",
         "Authorization": f"Bearer {NOTION_API_KEY}",
     }
     data = json.dumps(
@@ -45,12 +46,12 @@ def post_book_from_goodreads(book: GoodReadBook, verbose: Optional[bool] = False
                     "number": book.num_pages,
                 },
                 "ISBN": {
-                    "type": "number",
-                    "number": book.isbn,
+                    "type": "rich_text",
+                    "rich_text": [{"type": "text", "text": {"content": book.isbn}}],
                 },
                 "Author": {
                     "type": "rich_text",
-                    "rich_text": [{"type": "text", "text": {"content": book.authors}}],
+                    "rich_text": [{"type": "text", "text": {"content": ", ".join(book.authors)}}],
                 },
                 "URL": {"type": "url", "url": book.url},
             },
@@ -64,8 +65,9 @@ def post_book_from_goodreads(book: GoodReadBook, verbose: Optional[bool] = False
 def get_currently_reading():
     endpoint = f"https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}/query"
     headers = {
+        "accept": "application/json",
         "Content-Type": "application/json",
-        "Notion-Version": "2022-02-22",
+        "Notion-Version": "2022-06-28",
         "Authorization": f"Bearer {NOTION_API_KEY}",
     }
     data = json.dumps(
