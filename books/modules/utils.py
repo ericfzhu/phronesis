@@ -1,5 +1,8 @@
+import json
+
+
 class GoodReadBook:
-    def __init__(self, book, url):
+    def __init__(self, book: json, url: str):
         self.name = book['name']
         self.image = book['image']
         self.book_format = book['bookFormat']
