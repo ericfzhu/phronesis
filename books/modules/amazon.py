@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 
 
 def get_book_metadata(url, verbose: Optional[bool] = False):
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, "lxml")
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
 
     # Get information about the book from the url
     title = soup.select_one("span#productTitle").text

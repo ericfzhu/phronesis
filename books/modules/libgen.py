@@ -55,7 +55,7 @@ class LibGen:
         return output_data
 
     @staticmethod
-    def resolve_download_links(results: list[LibGenBook]) -> list[str]:
+    def get_download_links(results: list[LibGenBook]) -> list[str]:
         """
         Resolves the download links for the given results
         :param results: Results generated from search_book()
@@ -68,3 +68,19 @@ class LibGen:
                     download_links.append(link)
 
         return download_links
+
+    @staticmethod
+    def resolve_download_link(links: list[str]) -> dict[str: str]:
+        """
+        Resolves the first download link from get_download_links()
+        :param links:
+        :return:
+        """
+        mirrors = ["GET", "Cloudflare", "IPFS.io", "Infura"]
+        page = requests.get(links[0])
+        soup = BeautifulSoup(page.text, "html.parser")
+        links = soup.find_all("a", string=mirrors)
+        download_links = {link.string: link["href"] for link in links}
+
+        return download_links
+
