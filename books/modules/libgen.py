@@ -1,7 +1,9 @@
-from typing import Literal
+from typing import Literal, List
 
 import requests
 from bs4 import BeautifulSoup
+
+from .utils import LibGenBook
 
 search_queries = [
     "identifier",
@@ -9,26 +11,8 @@ search_queries = [
     "author",
 ]
 
-col_names = [
-    "ID",
-    "Author",
-    "Title",
-    "Publisher",
-    "Year",
-    "Pages",
-    "Language",
-    "Size",
-    "Extension",
-    "Mirror_1",
-    "Mirror_2",
-    "Mirror_3",
-    "Mirror_4",
-    "Mirror_5",
-    "Edit",
-]
 
-
-def search_book(query: str, search_type: Literal["identifier", "title", "author"] = "title") -> list[dict]:
+def search_book(query: str, search_type: Literal["identifier", "title", "author"] = "title") -> list[LibGenBook]:
     """
     Returns a list of results that match the given filter criteria and query
     :param query: Search query
@@ -53,9 +37,25 @@ def search_book(query: str, search_type: Literal["identifier", "title", "author"
     ]
 
     # Format raw data into a dictionary
-    output_data = [dict(zip(col_names, row)) for row in raw_data]
+    output_data = [LibGenBook(row[:-1]) for row in raw_data]
+    # output_data = [dict(zip(col_names, row[:-1])) for row in raw_data]
 
     return output_data
+
+
+def resolve_download_links(results: list[LibGenBook]) -> list[str]:
+    """
+    Resolves the download links for the given results
+    :param results:
+    :return:
+    """
+    download_links = []
+    for result in results:
+        for link in result.get_download_links():
+            if link is not None:
+                download_links.append(link)
+
+    return download_links
 
 
 def extract_td_data(td):
