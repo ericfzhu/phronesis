@@ -5,58 +5,6 @@ from bs4 import BeautifulSoup
 
 from .utils import LibGenBook
 
-search_queries = [
-    "identifier",
-    "title",
-    "author",
-]
-
-
-def search_book(query: str, search_type: Literal["identifier", "title", "author"] = "title") -> list[LibGenBook]:
-    """
-    Returns a list of results that match the given filter criteria and query
-    :param query: Search query
-    :param search_type: Search by ISBN, Title, or Author of book
-    :return: List of results that match the given filter criteria and query
-    """
-    if search_type not in search_queries:
-        raise ValueError("Invalid search type")
-
-    # Parse the given query and fetch data from given URL
-    query_parsed = "%20".join(query.split(" "))
-    url = f"http://gen.lib.rus.ec/search.php?req={query_parsed}&column={search_type}"
-    response = requests.get(url)
-
-    soup = BeautifulSoup(response.text, "lxml")
-    data = soup.find_all("table")[2]
-
-    # Extract data from the table
-    raw_data = [
-        [extract_td_data(td) for td in row.find_all("td")]
-        for row in data.find_all("tr")[1:]
-    ]
-
-    # Format raw data into a dictionary
-    output_data = [LibGenBook(row[:-1]) for row in raw_data]
-    # output_data = [dict(zip(col_names, row[:-1])) for row in raw_data]
-
-    return output_data
-
-
-def resolve_download_links(results: list[LibGenBook]) -> list[str]:
-    """
-    Resolves the download links for the given results
-    :param results:
-    :return:
-    """
-    download_links = []
-    for result in results:
-        for link in result.get_download_links():
-            if link is not None:
-                download_links.append(link)
-
-    return download_links
-
 
 def extract_td_data(td):
     """
@@ -68,3 +16,55 @@ def extract_td_data(td):
         return td.a["href"]
     else:
         return "".join(td.stripped_strings)
+
+
+class LibGen:
+    @staticmethod
+    def search_book(query: str, search_type: Literal["identifier", "title", "author"] = "title") -> list[LibGenBook]:
+        """
+        Returns a list of results that match the given filter criteria and query
+        :param query: Search query
+        :param search_type: Search by ISBN, Title, or Author of book
+        :return: List of results that match the given filter criteria and query
+        """
+        search_queries = [
+            "identifier",
+            "title",
+            "author",
+        ]
+        if search_type not in search_queries:
+            raise ValueError("Invalid search type")
+
+        # Parse the given query and fetch data from given URL
+        query_parsed = "%20".join(query.split(" "))
+        url = f"http://gen.lib.rus.ec/search.php?req={query_parsed}&column={search_type}"
+        response = requests.get(url)
+
+        soup = BeautifulSoup(response.text, "lxml")
+        data = soup.find_all("table")[2]
+
+        # Extract data from the table
+        raw_data = [
+            [extract_td_data(td) for td in row.find_all("td")]
+            for row in data.find_all("tr")[1:]
+        ]
+
+        # Format raw data into a dictionary
+        output_data = [LibGenBook(row[:-1]) for row in raw_data]
+
+        return output_data
+
+    @staticmethod
+    def resolve_download_links(results: list[LibGenBook]) -> list[str]:
+        """
+        Resolves the download links for the given results
+        :param results: Results generated from search_book()
+        :return: List of download links
+        """
+        download_links = []
+        for result in results:
+            for link in result.get_download_links():
+                if link is not None:
+                    download_links.append(link)
+
+        return download_links
