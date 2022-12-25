@@ -13,17 +13,18 @@ max_retries = 5
 
 
 class Goodreads:
-    @staticmethod
-    def get_book_metadata(url: str, verbose: Optional[bool] = False) -> GoodReadBook:
+    def __init__(self, url: str):
+        self.url = url
+
+    def get_metadata(self, verbose: Optional[bool] = False) -> GoodReadBook:
         """
         Get the book metadata from the URL
-        :param url:
         :param verbose:
         :return data:
         """
         # Strip URL of query parameters
         # noinspection PyProtectedMember
-        url = urlsplit(url)._replace(query="", fragment="").geturl()
+        url = urlsplit(self.url)._replace(query="", fragment="").geturl()
 
         # Validate and fetch data from given URL
         domain = '.'.join(urllib.parse.urlparse(url).hostname.split('.')[-2:])

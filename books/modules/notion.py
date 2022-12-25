@@ -1,30 +1,27 @@
 import json
-import os
 from typing import Optional
 
 import requests
-from dotenv import load_dotenv
 
 from .utils import GoodReadBook
 
-load_dotenv()
-NOTION_API_KEY = os.environ["NOTION_API_KEY"]
-NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
-
 
 class Notion:
-    @staticmethod
-    def post_book_from_goodreads(book: GoodReadBook, verbose: Optional[bool] = False):
+    def __init__(self, api_key: str, database_id: str):
+        self.api_key = api_key
+        self.database_id = database_id
+
+    def post_book_from_goodreads(self, book: GoodReadBook, verbose: Optional[bool] = False):
         endpoint = "https://api.notion.com/v1/pages/"
         headers = {
             "accept": "application/json",
             "Content-Type": "application/json",
             "Notion-Version": "2022-06-28",
-            "Authorization": f"Bearer {NOTION_API_KEY}",
+            "Authorization": f"Bearer {self.api_key}",
         }
         data = json.dumps(
             {
-                "parent": {"database_id": NOTION_DATABASE_ID},
+                "parent": {"database_id": self.database_id},
                 "properties": {
                     "Cover": {
                         "type": "files",
@@ -61,14 +58,13 @@ class Notion:
 
         return requests.request("POST", endpoint, headers=headers, data=data)
 
-    @staticmethod
-    def get_currently_reading():
-        endpoint = f"https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}/query"
+    def get_currently_reading(self):
+        endpoint = f"https://api.notion.com/v1/databases/{self.database_id}/query"
         headers = {
             "accept": "application/json",
             "Content-Type": "application/json",
             "Notion-Version": "2022-06-28",
-            "Authorization": f"Bearer {NOTION_API_KEY}",
+            "Authorization": f"Bearer {self.api_key}",
         }
         data = json.dumps(
             {"filter": {"property": "Status", "select": {"equals": "Reading"}}}

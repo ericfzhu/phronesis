@@ -1,4 +1,6 @@
+import io
 import smtplib
+import zipfile
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -11,13 +13,13 @@ from .utils import slugify
 
 
 class Kindle:
-    def __init__(self, email, password, smtp_server, smtp_port):
+    def __init__(self, email: str, password: str, smtp_server: str, smtp_port: int):
         self.email = email
         self.password = password
         self.smtp_server = smtp_server
         self.smtp_port = smtp_port
 
-    def send_book(self, to_email, title, attachment: requests.models.Response) -> None:
+    def send_book(self, to_email: str, title: str, attachment: requests.models.Response) -> None:
         # Slugify the title
         title = slugify(title)
 
@@ -32,15 +34,20 @@ class Kindle:
         # Add the message body
         msg.attach(MIMEText("Sent from knowledge-toolkit"))
 
+        zip_ebook = io.BytesIO()
+        with zipfile.ZipFile(zip_ebook, 'w') as zipf:
+            zipf.writestr(f'{title}.epub', attachment.content)
+        zip_ebook.seek(0)
+
         # Add the attachment to the email
         epub = MIMEBase("application", "octet-stream")
-        epub.set_payload(attachment.content)
+        epub.set_payload(zip_ebook.read())
 
         # Encode the attachment in base64
         encoders.encode_base64(epub)
 
         # Add header with the attachment's filename
-        epub.add_header("Content-Disposition", 'attachment', filename=f"{title}.epub")
+        epub.add_header("Content-Disposition", 'attachment', filename=f"{title}.zip")
 
         # Add the attachment to the email
         msg.attach(epub)

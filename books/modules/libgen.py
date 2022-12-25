@@ -53,14 +53,14 @@ class LibGen:
 
         self.data = output_data
 
-    def book_results(self) -> list[LibGenBook]:
+    def get_book_results(self) -> list[LibGenBook]:
         """
         Returns the list of books
         :return: List of books
         """
         return self.data
 
-    def download_links(self) -> list[str]:
+    def get_download_links(self) -> list[str]:
         """
         Resolves the download links for the given results
         :return: List of download links
@@ -79,7 +79,7 @@ class LibGen:
         :return:
         """
         # Get mirror links for the first result
-        download_links = self.download_links()
+        download_links = self.get_download_links()
         mirrors = ["GET", "Cloudflare", "IPFS.io", "Infura"]
         page = requests.get(download_links[0])
         soup = BeautifulSoup(page.text, "html.parser")
