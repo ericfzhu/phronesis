@@ -19,8 +19,7 @@ def extract_td_data(td):
 
 
 class LibGen:
-    @staticmethod
-    def search_book(query: str, search_type: Literal["identifier", "title", "author"] = "title") -> list[LibGenBook]:
+    def __init__(self, query: str, search_type: Literal["identifier", "title", "author"] = "title") -> None:
         """
         Returns a list of results that match the given filter criteria and query
         :param query: Search query
@@ -52,35 +51,43 @@ class LibGen:
         # Format raw data into a dictionary
         output_data = [LibGenBook(row[:-1]) for row in raw_data]
 
-        return output_data
+        self.data = output_data
 
-    @staticmethod
-    def get_download_links(results: list[LibGenBook]) -> list[str]:
+    def book_results(self) -> list[LibGenBook]:
+        """
+        Returns the list of books
+        :return: List of books
+        """
+        return self.data
+
+    def download_links(self) -> list[str]:
         """
         Resolves the download links for the given results
-        :param results: Results generated from search_book()
         :return: List of download links
         """
         download_links = []
-        for result in results:
+        for result in self.data:
             for link in result.get_download_links():
                 if link is not None:
                     download_links.append(link)
 
         return download_links
 
-    @staticmethod
-    def resolve_download_link(links: list[str]) -> dict[str: str]:
+    def download_first(self) -> requests.models.Response:
         """
-        Resolves the first download link from get_download_links()
-        :param links:
+        Downloads the first result from LibGen
         :return:
         """
+        # Get mirror links for the first result
+        download_links = self.download_links()
         mirrors = ["GET", "Cloudflare", "IPFS.io", "Infura"]
-        page = requests.get(links[0])
+        page = requests.get(download_links[0])
         soup = BeautifulSoup(page.text, "html.parser")
-        links = soup.find_all("a", string=mirrors)
-        download_links = {link.string: link["href"] for link in links}
+        mirror_links = soup.find_all("a", string=mirrors)
+        download_links = {link.string: link["href"] for link in mirror_links}
 
-        return download_links
+        # Download the first result
+        response = requests.get(download_links["GET"])
+
+        return response
 
