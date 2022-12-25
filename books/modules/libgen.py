@@ -1,4 +1,4 @@
-from typing import Literal, List
+from typing import Literal
 
 import requests
 from bs4 import BeautifulSoup
