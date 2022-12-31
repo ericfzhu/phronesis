@@ -34,6 +34,7 @@ class Kindle:
         # Add the message body
         msg.attach(MIMEText("Sent from knowledge-toolkit"))
 
+        # Zip the eBook
         zip_ebook = io.BytesIO()
         with zipfile.ZipFile(zip_ebook, 'w') as zipf:
             zipf.writestr(f'{title}.epub', attachment.content)

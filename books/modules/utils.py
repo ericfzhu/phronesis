@@ -46,5 +46,5 @@ class LibGenBook:
         self.mirror_4 = book[12] if length > 12 else None
         self.mirror_5 = book[13] if length > 13 else None
 
-    def get_download_links(self):
+    def download_links(self):
         return [self.mirror_1, self.mirror_2, self.mirror_3, self.mirror_4, self.mirror_5]

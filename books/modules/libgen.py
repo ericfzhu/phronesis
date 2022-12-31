@@ -67,7 +67,7 @@ class LibGen:
         """
         download_links = []
         for result in self.data:
-            for link in result.get_download_links():
+            for link in result.download_links():
                 if link is not None:
                     download_links.append(link)
 
