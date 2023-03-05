@@ -19,7 +19,7 @@ class Kindle:
         self.smtp_server = smtp_server
         self.smtp_port = smtp_port
 
-    def send_book(self, to_email: str, title: str, attachment: requests.models.Response) -> None:
+    def send_book(self, to_email: str, title: str, attachment: bytes) -> None:
         # Slugify the title
         title = slugify(title)
 
@@ -37,7 +37,7 @@ class Kindle:
         # Zip the eBook
         zip_ebook = io.BytesIO()
         with zipfile.ZipFile(zip_ebook, 'w') as zipf:
-            zipf.writestr(f'{title}.epub', attachment.content)
+            zipf.writestr(f'{title}.epub', attachment)
         zip_ebook.seek(0)
 
         # Add the attachment to the email

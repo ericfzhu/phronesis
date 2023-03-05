@@ -1,7 +1,11 @@
-from typing import Literal
+from typing import Literal, Optional
 
 import requests
 from bs4 import BeautifulSoup
+import tqdm
+import io
+
+from requests import Response
 
 from .utils import LibGenBook
 
@@ -73,7 +77,7 @@ class LibGen:
 
         return download_links
 
-    def download_first(self) -> requests.models.Response:
+    def download_first(self, verbose=False) -> Optional[bytes]:
         """
         Downloads the first result from LibGen
         :return:
@@ -87,7 +91,36 @@ class LibGen:
         download_links = {link.string: link["href"] for link in mirror_links}
 
         # Download the first result
-        response = requests.get(download_links["GET"])
+        if verbose:
+            print("Downloading the first result...")
+            print(download_links)
 
-        return response
+        # Use Cloudflare link if available, else GET
+        if download_links["Cloudflare"]:
+            response = requests.get(download_links["Cloudflare"], stream=True)
+        else:
+            response = requests.get(download_links["GET"], stream=True)
+
+        if response.status_code == 200:
+            content = io.BytesIO()
+            total_length = response.headers.get('content-length')
+
+            if verbose:
+                progress_bar = tqdm.tqdm(total=int(total_length), unit='B', unit_scale=True)
+
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    content.write(chunk)
+
+                    if verbose:
+                        progress_bar.update(len(chunk))
+
+            if verbose:
+                progress_bar.close()
+                print("Download complete!")
+
+            return content.getvalue()
+        else:
+            print("Download failed with status code {}".format(response.status_code))
+            return None
 

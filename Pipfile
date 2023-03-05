@@ -10,6 +10,8 @@ requests = "*"
 python-dotenv = "*"
 validators = "*"
 jupyter = "*"
+lxml = "*"
+tqdm = "*"
 
 [dev-packages]
 
