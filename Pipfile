@@ -12,6 +12,8 @@ validators = "*"
 jupyter = "*"
 lxml = "*"
 tqdm = "*"
+opencv-python = "*"
+pillow = "*"
 
 [dev-packages]
 
