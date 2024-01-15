@@ -3,6 +3,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[[source]]
+url = "https://download.pytorch.org/whl/cu121"
+verify_ssl = false
+name = "pytorch"
+
 [packages]
 pandas = "*"
 bs4 = "*"
@@ -15,8 +20,10 @@ tqdm = "*"
 opencv-python = "*"
 pillow = "*"
 diffusers = "*"
-torch = "*"
+torch = {version="*", index="pytorch"}
 transformers = "*"
+exceptiongroup = "*"
+accelerate = "*"
 
 [dev-packages]
 
