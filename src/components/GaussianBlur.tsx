@@ -76,26 +76,50 @@ export default function GaussianBlurPage(): JSX.Element {
 	const [isProcessing, setIsProcessing] = useState<boolean>(false);
 	const [comparePosition, setComparePosition] = useState<number>(50);
 	const [imageDimensions, setImageDimensions] = useState<ImageDimensions | null>(null);
+	const [isDragging, setIsDragging] = useState<boolean>(false);
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const compareContainerRef = useRef<HTMLDivElement>(null);
 	const sliderRef = useRef<HTMLDivElement>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const processFile = (file: File): void => {
+		const reader: FileReader = new FileReader();
+		reader.onload = (e: ProgressEvent<FileReader>): void => {
+			if (typeof e.target?.result === 'string') {
+				setOriginalImage(e.target.result);
+				const img = new window.Image();
+				img.onload = () => {
+					setImageDimensions({ width: img.width, height: img.height });
+				};
+				img.src = e.target.result;
+			}
+		};
+		reader.readAsDataURL(file);
+	};
 
 	const handleImageUpload = (e: ChangeEvent<HTMLInputElement>): void => {
 		const file: File | undefined = e.target.files?.[0];
 		if (file) {
-			const reader: FileReader = new FileReader();
-			reader.onload = (e: ProgressEvent<FileReader>): void => {
-				if (typeof e.target?.result === 'string') {
-					setOriginalImage(e.target.result);
-					const img = new window.Image();
-					img.onload = () => {
-						setImageDimensions({ width: img.width, height: img.height });
-					};
-					img.src = e.target.result;
-				}
-			};
-			reader.readAsDataURL(file);
+			processFile(file);
+		}
+	};
+
+	const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
+		e.preventDefault();
+		setIsDragging(true);
+	};
+
+	const handleDragLeave = (): void => {
+		setIsDragging(false);
+	};
+
+	const handleDrop = (e: React.DragEvent<HTMLDivElement>): void => {
+		e.preventDefault();
+		setIsDragging(false);
+		const file = e.dataTransfer.files[0];
+		if (file && file.type.startsWith('image/')) {
+			processFile(file);
 		}
 	};
 
@@ -179,12 +203,17 @@ export default function GaussianBlurPage(): JSX.Element {
 	return (
 		<div className="container mx-auto p-4">
 			<div className="space-y-4">
-				<input
-					type="file"
-					accept="image/*"
-					onChange={handleImageUpload}
-					className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-zinc-50 file:text-zinc-700 hover:file:bg-zinc-100"
-				/>
+				<div
+					className={`border-2 border-dashed p-4 text-center ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
+					onDragOver={handleDragOver}
+					onDragLeave={handleDragLeave}
+					onDrop={handleDrop}>
+					<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
+					<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4">
+						Select Image
+					</button>
+					<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
+				</div>
 				<div className="flex items-center space-x-2">
 					<label htmlFor="r">Radius (r): {r.toFixed(1)}</label>
 					<input
@@ -261,7 +290,7 @@ export default function GaussianBlurPage(): JSX.Element {
 						</div>
 						<button
 							onClick={handleDownload}
-							className="bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2"
+							className="bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded"
 							aria-label="Download blurred image">
 							<IconDownload size={24} />
 						</button>

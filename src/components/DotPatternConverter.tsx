@@ -162,7 +162,7 @@ export default function DotPatternConverter() {
 				onDragLeave={handleDragLeave}
 				onDrop={handleDrop}>
 				<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
-				<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-400 duration-300 font-bold py-2 px-4">
+				<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4">
 					Select Image
 				</button>
 				<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
