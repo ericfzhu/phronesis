@@ -12,7 +12,7 @@ export const TOOLS = [
 		description: 'Generate Lorem Ipsum text',
 	},
 	{
-		name: 'Blur',
+		name: 'Gaussian Blur',
 		href: '/blur',
 		preview: 'previews/blur.jpg',
 		description: 'Apply a blur effect to an image',
