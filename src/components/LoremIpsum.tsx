@@ -1,6 +1,6 @@
 'use client';
 
-import { IconCheck, IconCopy, IconDownload, IconPilcrow, IconTextPlus } from '@tabler/icons-react';
+import { IconCheck, IconCopy, IconDownload } from '@tabler/icons-react';
 import { useState } from 'react';
 
 const words = [
@@ -125,17 +125,17 @@ export default function Home() {
 						className="p-2 border rounded"
 					/>
 					<div className="flex space-x-2">
-						<label className="flex items-center space-x-2">
+						<label className="flex items-center space-x-2 accent-zinc-500">
 							<input type="radio" value="paragraphs" checked={unit === 'paragraphs'} onChange={() => setUnit('paragraphs')} />
 							<span>Paragraphs</span>
 						</label>
-						<label className="flex items-center space-x-2">
+						<label className="flex items-center space-x-2 accent-zinc-500">
 							<input type="radio" value="words" checked={unit === 'words'} onChange={() => setUnit('words')} />
 							<span>Words</span>
 						</label>
 					</div>
 				</div>
-				<button onClick={handleGenerate} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors max-w-lg">
+				<button onClick={handleGenerate} className="w-full p-2 bg-zinc-500 text-white hover:bg-zinc-600 transition-colors max-w-lg">
 					Generate
 				</button>
 				{output && (

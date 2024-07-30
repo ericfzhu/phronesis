@@ -1,23 +1,8 @@
-// app/gaussian-blur/page.tsx
 'use client';
 
-import { IconAdjustments, IconDownload, IconPhotoUp } from '@tabler/icons-react';
+import { IconDownload } from '@tabler/icons-react';
 import Image from 'next/image';
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
-
-// app/gaussian-blur/page.tsx
-
-// app/gaussian-blur/page.tsx
-
-// app/gaussian-blur/page.tsx
-
-// app/gaussian-blur/page.tsx
-
-// app/gaussian-blur/page.tsx
-
-// app/gaussian-blur/page.tsx
-
-// app/gaussian-blur/page.tsx
 
 interface ImageDimensions {
 	width: number;
@@ -212,7 +197,7 @@ export default function GaussianBlurPage(): JSX.Element {
 						min="0.5"
 						max="10"
 						step="0.1"
-						className="w-full"
+						className="w-full accent-zinc-500"
 					/>
 				</div>
 				<div className="flex items-center space-x-2">
@@ -227,7 +212,7 @@ export default function GaussianBlurPage(): JSX.Element {
 						min="0.1"
 						max="10"
 						step="0.1"
-						className="w-full"
+						className="w-full accent-zinc-500"
 					/>
 				</div>
 				{originalImage && blurredImage && imageDimensions && (

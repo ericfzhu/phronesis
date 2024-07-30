@@ -138,7 +138,7 @@ export default function DotPatternConverter() {
 			/>
 			<div className="flex items-center space-x-2">
 				<label htmlFor="dotSize">Dot Size: {dotSize}px</label>
-				<input type="range" id="dotSize" value={dotSize} onChange={handleDotSizeChange} min="1" max="50" className="w-full" />
+				<input type="range" id="dotSize" value={dotSize} onChange={handleDotSizeChange} min="1" max="50" className="w-full accent-zinc-500" />
 			</div>
 			{originalImage && convertedImage && imageDimensions && (
 				<div className="flex flex-col items-center space-y-4">
