@@ -23,6 +23,12 @@ export const TOOLS = [
 		preview: 'previews/colorpalette.jpg',
 		description: 'Pick colors and palettes from an image',
 	},
+	{
+		name: 'Solid Icon',
+		href: '/solidicon',
+		preview: 'previews/solidicon.jpg',
+		description: 'Generate a solid color square icon',
+	},
 	// {
 	// 	name: 'Tiktoken',
 	// 	href: '/tiktoken',
