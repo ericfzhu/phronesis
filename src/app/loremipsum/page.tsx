@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import DotPatternConverter from '@/components/DotPatternConverter';
+import LoremIpsum from '@/components/LoremIpsum';
 
 export const dynamic = 'force-static';
 
@@ -10,8 +10,8 @@ export default function Home() {
 			<Link href="/" className="uppercase text-xl font-semibold mb-2">
 				Toolbox
 			</Link>
-			<h1 className="font-semibold text-2xl mb-4">Dot Patterns</h1>
-			<DotPatternConverter />
+			<h1 className="font-semibold text-2xl mb-4">Lorem Ipsum</h1>
+			<LoremIpsum />
 		</main>
 	);
 }

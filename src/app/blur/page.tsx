@@ -1,7 +1,5 @@
 import Link from 'next/link';
 
-import DotPatternConverter from '@/components/DotPatternConverter';
-
 export const dynamic = 'force-static';
 
 export default function Home() {
@@ -10,8 +8,7 @@ export default function Home() {
 			<Link href="/" className="uppercase text-xl font-semibold mb-2">
 				Toolbox
 			</Link>
-			<h1 className="font-semibold text-2xl mb-4">Dot Patterns</h1>
-			<DotPatternConverter />
+			<h1 className="font-semibold text-2xl mb-4 ">Blur</h1>
 		</main>
 	);
 }
