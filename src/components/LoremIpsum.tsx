@@ -1,6 +1,6 @@
 'use client';
 
-import { IconPilcrow, IconTextPlus } from '@tabler/icons-react';
+import { IconCheck, IconCopy, IconDownload, IconPilcrow, IconTextPlus } from '@tabler/icons-react';
 import { useState } from 'react';
 
 const words = [
@@ -75,7 +75,7 @@ const generateSentence = () => {
 };
 
 const generateParagraph = () => {
-	const sentenceCount = Math.floor(Math.random() * 10) + 3;
+	const sentenceCount = Math.floor(Math.random() * 8) + 4;
 	return Array.from({ length: sentenceCount }, generateSentence).join(' ');
 };
 
@@ -95,9 +95,28 @@ export default function Home() {
 		}
 	};
 
+	const [copySuccess, setCopySuccess] = useState(false);
+
+	function handleCopy() {
+		navigator.clipboard.writeText(output).then(() => {
+			setCopySuccess(true);
+			setTimeout(() => setCopySuccess(false), 2000);
+		});
+	}
+
+	function handleDownload() {
+		const element = document.createElement('a');
+		const file = new Blob([output], { type: 'text/plain' });
+		element.href = URL.createObjectURL(file);
+		element.download = 'loremipsum.txt';
+		document.body.appendChild(element);
+		element.click();
+		document.body.removeChild(element);
+	}
+
 	return (
 		<div className="flex flex-col items-center justify-center">
-			<div className="w-full space-y-4 flex flex-col items-center">
+			<div className="w-full space-y-4 flex flex-col items-center max-w-3xl">
 				<div className="flex items-center space-x-2 max-w-lg w-full">
 					<input
 						type="number"
@@ -119,9 +138,22 @@ export default function Home() {
 				<button onClick={handleGenerate} className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors max-w-lg">
 					Generate
 				</button>
-				<div className="mt-4 p-4 bg-zinc-100 rounded-md">
-					<p className="whitespace-pre-wrap">{output}</p>
-				</div>
+				{output && (
+					<div className="bg-zinc-100">
+						<div className="bg-zinc-300 flex justify-end items-center p-2 gap-2">
+							<button
+								onClick={handleCopy}
+								className=" hover:opacity-50 p-1 transition duration-200"
+								title={copySuccess ? 'Copied!' : 'Copy text'}>
+								{copySuccess ? <IconCheck size={20} /> : <IconCopy size={20} />}
+							</button>
+							<button onClick={handleDownload} className=" hover:opacity-50 p-1 transition duration-200" title="Download text">
+								<IconDownload size={20} />
+							</button>
+						</div>
+						<p className="whitespace-pre-wrap p-4">{output}</p>
+					</div>
+				)}
 			</div>
 		</div>
 	);
