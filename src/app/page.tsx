@@ -9,9 +9,15 @@ export default function Home() {
 
 			<div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 				{TOOLS.map((tool) => (
-					<Link key={tool.name} className="group" href={tool.href}>
-						<Image src={tool.preview} alt={tool.name} width={400} height={400} className="w-full" />
-						<div className="mt-2 relative">
+					<Link key={tool.name} className="group flex flex-col h-full" href={tool.href}>
+						<div className="flex-grow flex items-end">
+							{' '}
+							{/* This div will create space above the image */}
+							<div className="w-full">
+								<Image src={tool.preview} alt={tool.name} width={400} height={400} className="w-full h-auto object-contain" />
+							</div>
+						</div>
+						<div className="mt-2">
 							<p className="text-2xl leading-relaxed">
 								<span className="font-semibold">{tool.name}</span>{' '}
 								<span className="text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

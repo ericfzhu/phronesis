@@ -10,7 +10,7 @@ export default function Home() {
 			<Link href="/" className="uppercase text-xl font-semibold mb-2">
 				Toolbox
 			</Link>
-			<h1 className="font-semibold text-2xl mb-4">Lorem Ipsum</h1>
+			<h1 className="font-semibold text-2xl mb-4">Lorem Ipsum Generator</h1>
 			<LoremIpsum />
 		</main>
 	);

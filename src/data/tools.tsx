@@ -11,12 +11,12 @@ export const TOOLS = [
 		preview: 'previews/loremipsum.jpg',
 		description: 'Generate Lorem Ipsum text',
 	},
-	// {
-	// 	name: 'Blur',
-	// 	href: '/blur',
-	// 	preview: 'previews/blur.jpg',
-	// 	description: 'Apply a blur effect to an image',
-	// },
+	{
+		name: 'Blur',
+		href: '/blur',
+		preview: 'previews/blur.jpg',
+		description: 'Apply a blur effect to an image',
+	},
 	// {
 	// 	name: 'Color Picker',
 	// 	href: '/colorpicker',
