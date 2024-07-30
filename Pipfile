@@ -18,6 +18,7 @@ exceptiongroup = "*"
 accelerate = "*"
 pypdf2 = {extras = ["crypto"], version = "*"}
 pdfrw = "*"
+matplotlib = "*"
 
 [dev-packages]
 
