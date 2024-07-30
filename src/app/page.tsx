@@ -9,20 +9,16 @@ export default function Home() {
 
 			<div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 				{TOOLS.map((tool) => (
-					<Link key={tool.name} className="group flex flex-col h-full" href={tool.href}>
-						<div className="flex-grow flex items-end">
-							<div className="w-full">
-								<Image src={tool.preview} alt={tool.name} width={400} height={400} className="w-full h-auto object-contain" />
-							</div>
+					<Link key={tool.name} className="group flex flex-col" href={tool.href}>
+						<div className="w-full flex items-end mb-4 flex-grow">
+							<Image src={tool.preview} alt={tool.name} width={400} height={400} className="w-full h-auto object-contain" />
 						</div>
-						<div className="mt-2">
-							<p className="text-2xl leading-relaxed">
-								<span className="font-semibold">{tool.name}</span>{' '}
-								<span className="text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-									{tool.description}
-								</span>
-							</p>
-						</div>
+						<p className="text-2xl h-20">
+							<span className="font-semibold">{tool.name}</span>{' '}
+							<span className="text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+								{tool.description}
+							</span>
+						</p>
 					</Link>
 				))}
 			</div>
