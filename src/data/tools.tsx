@@ -17,12 +17,12 @@ export const TOOLS = [
 		preview: 'previews/blur.jpg',
 		description: 'Apply a blur effect to an image',
 	},
-	// {
-	// 	name: 'Color Picker',
-	// 	href: '/colorpicker',
-	// 	preview: 'previews/colorpicker.jpg',
-	// 	description: 'Pick a color from an image',
-	// },
+	{
+		name: 'Colors & Palettes',
+		href: '/colorpalette',
+		preview: 'previews/colorpalette.jpg',
+		description: 'Pick colors and palettes from an image',
+	},
 	// {
 	// 	name: 'Tiktoken',
 	// 	href: '/tiktoken',
