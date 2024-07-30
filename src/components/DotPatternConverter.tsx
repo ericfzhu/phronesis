@@ -10,20 +10,46 @@ export default function DotPatternConverter() {
 	const [dotSize, setDotSize] = useState<number>(5); // Default dot size in pixels
 	const [comparePosition, setComparePosition] = useState<number>(50);
 	const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
+	const [isDragging, setIsDragging] = useState<boolean>(false);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const compareContainerRef = useRef<HTMLDivElement>(null);
 	const sliderRef = useRef<HTMLDivElement>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const handleImageUpload = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
+			processFile(file);
+		}
+	}, []);
+
+	const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+		event.preventDefault();
+		setIsDragging(true);
+	}, []);
+
+	const handleDragLeave = useCallback(() => {
+		setIsDragging(false);
+	}, []);
+
+	const handleDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+		event.preventDefault();
+		setIsDragging(false);
+		const file = event.dataTransfer.files[0];
+		if (file) {
+			processFile(file);
+		}
+	}, []);
+
+	const processFile = (file: File) => {
+		if (file.type.startsWith('image/')) {
 			const reader = new FileReader();
 			reader.onload = (e) => {
 				setOriginalImage(e.target?.result as string);
 			};
 			reader.readAsDataURL(file);
 		}
-	}, []);
+	};
 
 	const handleDotSizeChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		setDotSize(Number(event.target.value));
@@ -130,12 +156,17 @@ export default function DotPatternConverter() {
 
 	return (
 		<div className="space-y-4">
-			<input
-				type="file"
-				accept="image/*"
-				onChange={handleImageUpload}
-				className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-zinc-50 file:text-zinc-700 hover:file:bg-zinc-100"
-			/>
+			<div
+				className={`border-2 border-dashed p-4 text-center ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
+				onDragOver={handleDragOver}
+				onDragLeave={handleDragLeave}
+				onDrop={handleDrop}>
+				<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
+				<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-400 duration-300 font-bold py-2 px-4">
+					Select Image
+				</button>
+				<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
+			</div>
 			<div className="flex items-center space-x-2">
 				<label htmlFor="dotSize">Dot Size: {dotSize}px</label>
 				<input type="range" id="dotSize" value={dotSize} onChange={handleDotSizeChange} min="1" max="50" className="w-full accent-zinc-500" />
@@ -186,7 +217,7 @@ export default function DotPatternConverter() {
 					</div>
 					<button
 						onClick={handleDownload}
-						className="bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2"
+						className="bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded"
 						aria-label="Download converted image">
 						<IconDownload size={24} />
 					</button>
