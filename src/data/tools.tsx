@@ -29,6 +29,12 @@ export const TOOLS = [
 		preview: 'previews/square.jpg',
 		description: 'Generate a solid square',
 	},
+	{
+		name: 'Counter',
+		href: '/counter',
+		preview: 'previews/counter.jpg',
+		description: 'Count words and characters in a text',
+	},
 	// {
 	// 	name: 'Tiktoken',
 	// 	href: '/tiktoken',
