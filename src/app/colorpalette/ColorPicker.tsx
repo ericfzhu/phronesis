@@ -18,6 +18,7 @@ export default function ColorPickerComponent() {
 	const [image, setImage] = useState<string | null>(null);
 	const [selectedColors, setSelectedColors] = useState<ColorWithPalette[]>([]);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
+	const [magnifierPosition, setMagnifierPosition] = useState<{ x: number; y: number } | null>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const imageRef = useRef<HTMLImageElement>(null);
@@ -271,6 +272,29 @@ export default function ColorPickerComponent() {
 		link.click();
 	};
 
+	const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+		const canvas = canvasRef.current;
+		if (!canvas) return;
+
+		const rect = canvas.getBoundingClientRect();
+		const scaleX = canvas.width / rect.width;
+		const scaleY = canvas.height / rect.height;
+
+		// Calculate position relative to the canvas
+		const x = (e.clientX - rect.left) * scaleX;
+		const y = (e.clientY - rect.top) * scaleY;
+
+		// Set magnifier position using page coordinates
+		setMagnifierPosition({
+			x: e.clientX - rect.left,
+			y: e.clientY - rect.top,
+		});
+	};
+
+	const handleMouseLeave = () => {
+		setMagnifierPosition(null);
+	};
+
 	return (
 		<div className="flex h-full">
 			<div className="w-1/2 p-4 flex flex-col">
@@ -288,15 +312,58 @@ export default function ColorPickerComponent() {
 					<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
 				</div>
 				{image && (
-					<>
+					<div className="relative">
 						<canvas
 							ref={canvasRef}
 							onClick={handleImageClick}
-							className="cursor-crosshair"
+							onMouseMove={handleMouseMove}
+							onMouseLeave={handleMouseLeave}
+							className="cursor-none"
 							style={{ maxWidth: '100%', height: 'auto' }}
 						/>
+						{magnifierPosition && (
+							<div
+								className="absolute pointer-events-none"
+								style={{
+									left: `${magnifierPosition.x}px`,
+									top: `${magnifierPosition.y}px`,
+									width: '100px',
+									height: '100px',
+									border: '2px solid white',
+									boxShadow: '0 0 0 1px black',
+									borderRadius: '50%',
+									transform: 'translate(-50%, -50%)',
+									overflow: 'hidden',
+								}}>
+								<canvas
+									ref={(el) => {
+										if (el && canvasRef.current) {
+											const ctx = el.getContext('2d');
+											const sourceCtx = canvasRef.current.getContext('2d');
+											if (ctx && sourceCtx) {
+												el.width = 100;
+												el.height = 100;
+												ctx.imageSmoothingEnabled = false;
+
+												// Calculate the source position based on the canvas scale
+												const rect = canvasRef.current.getBoundingClientRect();
+												const scaleX = canvasRef.current.width / rect.width;
+												const scaleY = canvasRef.current.height / rect.height;
+												const sourceX = magnifierPosition.x * scaleX;
+												const sourceY = magnifierPosition.y * scaleY;
+
+												ctx.drawImage(canvasRef.current, sourceX - 5, sourceY - 5, 10, 10, 0, 0, 100, 100);
+												ctx.strokeStyle = 'white';
+												ctx.lineWidth = 2;
+												ctx.strokeRect(45, 45, 10, 10);
+											}
+										}
+									}}
+								/>
+							</div>
+						)}
 						<img ref={imageRef} src={image} alt="Uploaded" className="hidden" crossOrigin="anonymous" />
-					</>
+					</div>
 				)}
 			</div>
 			<div className="w-1/2 p-4 bg-gray-100 overflow-y-auto">
