@@ -6,6 +6,7 @@ export default function Home() {
 	return (
 		<main className="flex min-h-screen flex-col px-20 py-12 gap-12">
 			<h1 className="uppercase text-xl font-semibold">Toolbox</h1>
+			<Image src="icon.jpg" alt="icon" width={400} height={400} className="absolute top-12 right-20 h-10 w-10" />
 
 			<div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 				{TOOLS.map((tool) => (
