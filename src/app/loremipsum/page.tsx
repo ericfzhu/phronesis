@@ -1,5 +1,7 @@
-import LoremIpsum from '@/app/loremipsum/LoremIpsum';
+import Image from 'next/image';
 import Link from 'next/link';
+
+import LoremIpsum from '@/app/loremipsum/LoremIpsum';
 
 export const dynamic = 'force-static';
 
@@ -9,6 +11,7 @@ export default function Home() {
 			<Link href="/" className="uppercase text-xl font-semibold mb-2">
 				Toolbox
 			</Link>
+			<Image src="icon.jpg" alt="icon" width={400} height={400} className="absolute top-12 right-20 h-10 w-10" />
 			<h1 className="font-semibold text-2xl mb-4">Lorem Ipsum Generator</h1>
 			<LoremIpsum />
 		</main>

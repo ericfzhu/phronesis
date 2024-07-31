@@ -5,7 +5,7 @@
 	"semi": true,
 	"bracketSameLine": true,
 	"printWidth": 150,
-	"importOrder": ["^@/components/(.*)$", "^@/components$", "^@/lib/(.*)$", "^@/styles/(.*)$", "^@/utils/(.*)$", "^[./]"],
+	"importOrder": ["^@/components/(.*)$", "^@/components$", "^@/app/(.*)$", "^@/lib/(.*)$", "^@/styles/(.*)$", "^@/utils/(.*)$", "^[./]"],
 	"importOrderSeparation": true,
 	"importOrderSortSpecifiers": true,
 	"importOrderGroupNamespaceSpecifiers": true,
