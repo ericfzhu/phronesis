@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import SolidIcon from '@/components/SolidIcon';
+import Square from '@/components/Square';
 
 export const dynamic = 'force-static';
 
@@ -11,7 +11,7 @@ export default function Home() {
 				Toolbox
 			</Link>
 			<h1 className="font-semibold text-2xl mb-4">A Solid Square</h1>
-			<SolidIcon />
+			<Square />
 		</main>
 	);
 }

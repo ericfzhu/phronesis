@@ -29,7 +29,7 @@ export default function ColorSquareGenerator() {
 			const dataUrl = canvas.toDataURL('image/jpeg');
 			const link = document.createElement('a');
 			link.href = dataUrl;
-			link.download = 'color-square.jpg';
+			link.download = 'square.jpg';
 			link.click();
 		}
 	};

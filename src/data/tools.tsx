@@ -24,10 +24,10 @@ export const TOOLS = [
 		description: 'Pick colors and palettes from an image',
 	},
 	{
-		name: 'Solid Icon',
-		href: '/solidicon',
-		preview: 'previews/solidicon.jpg',
-		description: 'Generate a solid color square icon',
+		name: 'square.jpg',
+		href: '/square',
+		preview: 'previews/square.jpg',
+		description: 'Generate a solid square',
 	},
 	// {
 	// 	name: 'Tiktoken',
