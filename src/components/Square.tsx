@@ -4,7 +4,7 @@ import { IconDownload } from '@tabler/icons-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 export default function ColorSquareGenerator() {
-	const [color, setColor] = useState('#FF0000');
+	const [color, setColor] = useState('#DABABD');
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const colorInputRef = useRef<HTMLInputElement>(null);
 
