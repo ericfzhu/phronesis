@@ -83,7 +83,7 @@ export default function GaussianBlurPage(): JSX.Element {
 	const sliderRef = useRef<HTMLDivElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
-	const processFile = (file: File): void => {
+	function processFile(file: File): void {
 		const reader: FileReader = new FileReader();
 		reader.onload = (e: ProgressEvent<FileReader>): void => {
 			if (typeof e.target?.result === 'string') {
@@ -96,32 +96,32 @@ export default function GaussianBlurPage(): JSX.Element {
 			}
 		};
 		reader.readAsDataURL(file);
-	};
+	}
 
-	const handleImageUpload = (e: ChangeEvent<HTMLInputElement>): void => {
+	function handleImageUpload(e: ChangeEvent<HTMLInputElement>): void {
 		const file: File | undefined = e.target.files?.[0];
 		if (file) {
 			processFile(file);
 		}
-	};
+	}
 
-	const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
+	function handleDragOver(e: React.DragEvent<HTMLDivElement>): void {
 		e.preventDefault();
 		setIsDragging(true);
-	};
+	}
 
-	const handleDragLeave = (): void => {
+	function handleDragLeave(): void {
 		setIsDragging(false);
-	};
+	}
 
-	const handleDrop = (e: React.DragEvent<HTMLDivElement>): void => {
+	function handleDrop(e: React.DragEvent<HTMLDivElement>): void {
 		e.preventDefault();
 		setIsDragging(false);
 		const file = e.dataTransfer.files[0];
 		if (file && file.type.startsWith('image/')) {
 			processFile(file);
 		}
-	};
+	}
 
 	const applyBlur = useCallback((): void => {
 		if (!originalImage) return;
@@ -157,13 +157,13 @@ export default function GaussianBlurPage(): JSX.Element {
 		if (originalImage) applyBlur();
 	}, [originalImage, applyBlur]);
 
-	const handleSliderChange = (e: ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<number>>) => {
+	function handleSliderChange(e: ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<number>>) {
 		setter(parseFloat(e.target.value));
-	};
+	}
 
-	const handleSliderRelease = () => {
+	function handleSliderRelease() {
 		applyBlur();
-	};
+	}
 
 	const handleSliderDrag = useCallback(
 		(e: React.MouseEvent<HTMLDivElement>) => {
@@ -191,14 +191,14 @@ export default function GaussianBlurPage(): JSX.Element {
 		[comparePosition],
 	);
 
-	const handleDownload = () => {
+	function handleDownload() {
 		if (blurredImage) {
 			const link = document.createElement('a');
 			link.href = blurredImage;
 			link.download = 'blurred_image.png';
 			link.click();
 		}
-	};
+	}
 
 	return (
 		<div className="container mx-auto p-4">

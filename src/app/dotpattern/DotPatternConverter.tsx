@@ -41,16 +41,6 @@ export default function DotPatternConverter() {
 		}
 	}, []);
 
-	const processFile = (file: File) => {
-		if (file.type.startsWith('image/')) {
-			const reader = new FileReader();
-			reader.onload = (e) => {
-				setOriginalImage(e.target?.result as string);
-			};
-			reader.readAsDataURL(file);
-		}
-	};
-
 	const handleDotSizeChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		setDotSize(Number(event.target.value));
 	}, []);
@@ -114,12 +104,6 @@ export default function DotPatternConverter() {
 		img.src = originalImage;
 	}, [originalImage, dotSize]);
 
-	useEffect(() => {
-		if (originalImage) {
-			convertImage();
-		}
-	}, [originalImage, dotSize, convertImage]);
-
 	const handleSliderDrag = useCallback(
 		(e: React.MouseEvent<HTMLDivElement>) => {
 			const container = compareContainerRef.current;
@@ -153,6 +137,22 @@ export default function DotPatternConverter() {
 			document.body.removeChild(link);
 		}
 	}, [convertedImage]);
+
+	function processFile(file: File) {
+		if (file.type.startsWith('image/')) {
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				setOriginalImage(e.target?.result as string);
+			};
+			reader.readAsDataURL(file);
+		}
+	}
+
+	useEffect(() => {
+		if (originalImage) {
+			convertImage();
+		}
+	}, [originalImage, dotSize, convertImage]);
 
 	return (
 		<div className="space-y-4">

@@ -24,40 +24,40 @@ export default function ColorPickerComponent() {
 	const imageRef = useRef<HTMLImageElement>(null);
 	const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
 
-	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+	function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
 		e.preventDefault();
 		setIsDragging(true);
-	};
+	}
 
-	const handleDragLeave = () => {
+	function handleDragLeave() {
 		setIsDragging(false);
-	};
+	}
 
-	const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+	function handleDrop(e: React.DragEvent<HTMLDivElement>) {
 		e.preventDefault();
 		setIsDragging(false);
 		const file = e.dataTransfer.files[0];
 		if (file && file.type.startsWith('image/')) {
 			processFile(file);
 		}
-	};
+	}
 
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
 		const file = e.target.files?.[0];
 		if (file) {
 			processFile(file);
 		}
-	};
+	}
 
-	const processFile = (file: File) => {
+	function processFile(file: File) {
 		const reader = new FileReader();
 		reader.onload = (e) => {
 			setImage(e.target?.result as string);
 		};
 		reader.readAsDataURL(file);
-	};
+	}
 
-	const rgbToHex = (r: number, g: number, b: number): string => {
+	function rgbToHex(r: number, g: number, b: number): string {
 		return (
 			'#' +
 			[r, g, b]
@@ -67,14 +67,14 @@ export default function ColorPickerComponent() {
 				})
 				.join('')
 		);
-	};
+	}
 
-	const hexToRgb = (hex: string): [number, number, number] => {
+	function hexToRgb(hex: string): [number, number, number] {
 		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 		return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : [0, 0, 0];
-	};
+	}
 
-	const rgbToHsl = (r: number, g: number, b: number): [number, number, number] => {
+	function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
 		r /= 255;
 		g /= 255;
 		b /= 255;
@@ -102,13 +102,13 @@ export default function ColorPickerComponent() {
 		}
 
 		return [h * 360, s! * 100, l * 100];
-	};
+	}
 
-	const colorDistance = (color1: [number, number, number], color2: [number, number, number]): number => {
+	function colorDistance(color1: [number, number, number], color2: [number, number, number]): number {
 		return Math.sqrt(Math.pow(color1[0] - color2[0], 2) + Math.pow(color1[1] - color2[1], 2) + Math.pow(color1[2] - color2[2], 2));
-	};
+	}
 
-	const getPalette = (imageData: ImageData, colorCount: number = 5, quality: number = 10): [number, number, number][] => {
+	function getPalette(imageData: ImageData, colorCount: number = 5, quality: number = 10): [number, number, number][] {
 		const pixels: [number, number, number][] = [];
 		for (let i = 0; i < imageData.data.length; i += 4 * quality) {
 			pixels.push([imageData.data[i], imageData.data[i + 1], imageData.data[i + 2]]);
@@ -148,9 +148,9 @@ export default function ColorPickerComponent() {
 		}
 
 		return centroids;
-	};
+	}
 
-	const handleImageClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+	function handleImageClick(e: React.MouseEvent<HTMLCanvasElement>) {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 
@@ -177,13 +177,13 @@ export default function ColorPickerComponent() {
 		};
 
 		setSelectedColors((prevColors) => [...prevColors, color]);
-	};
+	}
 
-	const copyToClipboard = (text: string) => {
+	function copyToClipboard(text: string) {
 		navigator.clipboard.writeText(text);
-	};
+	}
 
-	const generatePalette = async (index: number) => {
+	async function generatePalette(index: number) {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 
@@ -213,11 +213,11 @@ export default function ColorPickerComponent() {
 		const hexPalette = harmonicPalette.map((color) => rgbToHex(...color));
 
 		setSelectedColors((prevColors) => prevColors.map((color, i) => (i === index ? { ...color, palette: hexPalette, showPalette: true } : color)));
-	};
+	}
 
-	const togglePalette = (index: number) => {
+	function togglePalette(index: number) {
 		setSelectedColors((prevColors) => prevColors.map((color, i) => (i === index ? { ...color, showPalette: !color.showPalette } : color)));
-	};
+	}
 
 	useEffect(() => {
 		if (image && canvasRef.current) {
@@ -236,7 +236,7 @@ export default function ColorPickerComponent() {
 		}
 	}, [image]);
 
-	const downloadImageWithPalette = (palette: string[]) => {
+	function downloadImageWithPalette(palette: string[]) {
 		if (!imageDimensions) return;
 
 		const canvas = canvasRef.current;
@@ -245,55 +245,44 @@ export default function ColorPickerComponent() {
 		const ctx = canvas.getContext('2d');
 		if (!ctx) return;
 
-		// Create a new canvas
 		const newCanvas = document.createElement('canvas');
 		const newCtx = newCanvas.getContext('2d');
 		if (!newCtx) return;
 
-		const squareSize = Math.floor(imageDimensions.width / 5); // Size of each color square
-		const paletteHeight = squareSize; // Height of the palette area
+		const squareSize = Math.floor(imageDimensions.width / 5);
+		const paletteHeight = squareSize;
 
 		newCanvas.width = imageDimensions.width;
 		newCanvas.height = imageDimensions.height + paletteHeight;
 
-		// Draw the original image
 		newCtx.drawImage(canvas, 0, 0);
 
-		// Draw the palette
 		palette.forEach((color, index) => {
 			newCtx.fillStyle = color;
 			newCtx.fillRect(index * squareSize, imageDimensions.height, squareSize, squareSize);
 		});
 
-		// Create a download link
 		const link = document.createElement('a');
 		link.download = 'image-with-palette.png';
 		link.href = newCanvas.toDataURL('image/png');
 		link.click();
-	};
+	}
 
-	const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+	function handleMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 
 		const rect = canvas.getBoundingClientRect();
-		const scaleX = canvas.width / rect.width;
-		const scaleY = canvas.height / rect.height;
 
-		// Calculate position relative to the canvas
-		const x = (e.clientX - rect.left) * scaleX;
-		const y = (e.clientY - rect.top) * scaleY;
-
-		// Set magnifier position using page coordinates
 		setMagnifierPosition({
 			x: e.clientX - rect.left,
 			y: e.clientY - rect.top,
 		});
-	};
+	}
 
-	const handleMouseLeave = () => {
+	function handleMouseLeave() {
 		setMagnifierPosition(null);
-	};
+	}
 
 	return (
 		<div className="flex h-full">

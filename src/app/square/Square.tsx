@@ -12,7 +12,7 @@ export default function ColorSquareGenerator() {
 		generateImage();
 	}, [color]);
 
-	const generateImage = () => {
+	function generateImage() {
 		const canvas = canvasRef.current;
 		if (canvas) {
 			const ctx = canvas.getContext('2d');
@@ -21,9 +21,9 @@ export default function ColorSquareGenerator() {
 				ctx.fillRect(0, 0, 10, 10);
 			}
 		}
-	};
+	}
 
-	const downloadImage = () => {
+	function downloadImage() {
 		const canvas = canvasRef.current;
 		if (canvas) {
 			const dataUrl = canvas.toDataURL('image/jpeg');
@@ -32,24 +32,24 @@ export default function ColorSquareGenerator() {
 			link.download = 'square.jpg';
 			link.click();
 		}
-	};
+	}
 
-	const handleSquareClick = () => {
+	function handleSquareClick() {
 		if (colorInputRef.current) {
 			colorInputRef.current.click();
 		}
-	};
+	}
 
-	const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	function handleColorChange(e: React.ChangeEvent<HTMLInputElement>) {
 		setColor(e.target.value);
-	};
+	}
 
-	const handleHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	function handleHexChange(e: React.ChangeEvent<HTMLInputElement>) {
 		const newColor = e.target.value;
 		if (/^#[0-9A-F]{6}$/i.test(newColor)) {
 			setColor(newColor);
 		}
-	};
+	}
 
 	return (
 		<div className="flex flex-col items-center space-y-4 p-4">

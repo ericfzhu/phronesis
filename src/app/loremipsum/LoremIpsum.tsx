@@ -69,33 +69,34 @@ const words = [
 	'laborum',
 ];
 
-const generateSentence = () => {
+function generateSentence() {
 	const length = Math.floor(Math.random() * 10) + 5;
 	return capitalize(Array.from({ length }, () => words[Math.floor(Math.random() * words.length)]).join(' ')) + '.';
-};
+}
 
-const generateParagraph = () => {
+function generateParagraph() {
 	const sentenceCount = Math.floor(Math.random() * 8) + 4;
 	return Array.from({ length: sentenceCount }, generateSentence).join(' ');
-};
+}
 
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+function capitalize(str: string) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 export default function Home() {
 	const [output, setOutput] = useState('');
 	const [count, setCount] = useState(1);
 	const [unit, setUnit] = useState('paragraphs');
+	const [copySuccess, setCopySuccess] = useState(false);
 
-	const handleGenerate = () => {
+	function handleGenerate() {
 		if (unit === 'paragraphs') {
 			setOutput(Array.from({ length: count }, generateParagraph).join('\n\n'));
 		} else {
 			const generatedWords = Array.from({ length: count }, () => words[Math.floor(Math.random() * words.length)]);
 			setOutput(capitalize(generatedWords.join(' ')) + '.');
 		}
-	};
-
-	const [copySuccess, setCopySuccess] = useState(false);
+	}
 
 	function handleCopy() {
 		navigator.clipboard.writeText(output).then(() => {
