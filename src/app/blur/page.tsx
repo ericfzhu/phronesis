@@ -1,6 +1,5 @@
+import GaussianBlur from '@/app/blur/GaussianBlur';
 import Link from 'next/link';
-
-import GaussianBlur from '@/components/GaussianBlur';
 
 export const dynamic = 'force-static';
 

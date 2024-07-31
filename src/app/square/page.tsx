@@ -1,6 +1,5 @@
+import Square from '@/app/square/Square';
 import Link from 'next/link';
-
-import Square from '@/components/Square';
 
 export const dynamic = 'force-static';
 

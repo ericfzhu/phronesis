@@ -1,6 +1,5 @@
+import ColorPicker from '@/app/colorpalette/ColorPicker';
 import Link from 'next/link';
-
-import ColorPicker from '@/components/ColorPicker';
 
 export const dynamic = 'force-static';
 

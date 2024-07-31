@@ -1,6 +1,5 @@
+import LoremIpsum from '@/app/loremipsum/LoremIpsum';
 import Link from 'next/link';
-
-import LoremIpsum from '@/components/LoremIpsum';
 
 export const dynamic = 'force-static';
 

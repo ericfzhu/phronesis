@@ -1,6 +1,5 @@
+import DotPatternConverter from '@/app/dotpattern/DotPatternConverter';
 import Link from 'next/link';
-
-import DotPatternConverter from '@/components/DotPatternConverter';
 
 export const dynamic = 'force-static';
 
