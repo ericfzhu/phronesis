@@ -35,10 +35,10 @@ export const TOOLS = [
 		preview: 'previews/counter.jpg',
 		description: 'Count words and characters in a text',
 	},
-	// {
-	// 	name: 'Tiktoken',
-	// 	href: '/tiktoken',
-	// 	preview: 'previews/tiktoken.jpg',
-	// 	description: 'Count and visualize text embeddings',
-	// },
+	{
+		name: 'Image Converter',
+		href: '/converter',
+		preview: 'previews/imageconverter.jpg',
+		description: 'Change image formats and sizes',
+	},
 ];

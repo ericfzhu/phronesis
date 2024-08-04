@@ -177,8 +177,10 @@ export default function DotPatternConverter() {
 						className="relative"
 						ref={compareContainerRef}
 						style={{
-							width: `min(50vw, ${imageDimensions.width}px)`,
-							height: `min(50vw, ${imageDimensions.height}px)`,
+							width: imageDimensions.width >= imageDimensions.height ? '50vw' : 'auto',
+							height: imageDimensions.height > imageDimensions.width ? '50vw' : 'auto',
+							maxWidth: '100%',
+							maxHeight: '50vw',
 							aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}`,
 						}}>
 						<Image
