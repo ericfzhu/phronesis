@@ -42,9 +42,9 @@ export const TOOLS = [
 		description: 'Change image formats and sizes',
 	},
 	{
-		name: 'Escaper',
-		href: '/escaper',
-		preview: 'previews/exit.jpg',
+		name: 'Escapist',
+		href: '/escapist',
+		preview: 'previews/escapist.jpg',
 		description: 'Escape special characters in a string',
 	},
 ];
