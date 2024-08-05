@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import StringEscaper from '@/app/escaper/StringEscaper';
+import StringEscaper from '@/app/escapist/StringEscaper';
 
 export const dynamic = 'force-static';
 
