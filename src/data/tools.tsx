@@ -41,4 +41,10 @@ export const TOOLS = [
 		preview: 'previews/imageconverter.jpg',
 		description: 'Change image formats and sizes',
 	},
+	{
+		name: 'Escaper',
+		href: '/escaper',
+		preview: 'previews/exit.jpg',
+		description: 'Escape special characters in a string',
+	},
 ];

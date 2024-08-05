@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import ColorPicker from '@/app/colorpalette/ColorPicker';
+import StringEscaper from '@/app/escaper/StringEscaper';
 
 export const dynamic = 'force-static';
 
@@ -12,8 +12,8 @@ export default function Home() {
 				Toolbox
 			</Link>
 			<Image src="icon.jpg" alt="icon" width={400} height={400} className="absolute top-12 right-20 h-10 w-10" />
-			<h1 className="font-semibold text-2xl mb-4">Colors & Palettes</h1>
-			<ColorPicker />
+			<h1 className="font-semibold text-2xl mb-4">Escaper</h1>
+			<StringEscaper />
 		</main>
 	);
 }

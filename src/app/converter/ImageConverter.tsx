@@ -177,7 +177,7 @@ function ImageConverter() {
 	}
 
 	return (
-		<div className="max-w-md mx-auto mt-10 space-y-4">
+		<div className="mx-auto mt-10 space-y-4">
 			<div
 				className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
 					isImageDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'
@@ -200,12 +200,12 @@ function ImageConverter() {
 					<img
 						src={originalImage}
 						alt="Original"
-						className="pointer-events-none"
+						className="pointer-events-none w-full"
 						style={{
-							width: imageDimensions.width >= imageDimensions.height ? '60vw' : 'auto',
-							height: imageDimensions.height > imageDimensions.width ? '60vw' : 'auto',
+							width: imageDimensions.width >= imageDimensions.height ? '60vh' : 'auto',
+							height: imageDimensions.height > imageDimensions.width ? '60vh' : 'auto',
 							maxWidth: '100%',
-							maxHeight: '60vw',
+							maxHeight: '60vh',
 							aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}`,
 						}}
 					/>
