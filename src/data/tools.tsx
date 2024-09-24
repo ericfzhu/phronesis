@@ -47,4 +47,10 @@ export const TOOLS = [
 		preview: 'previews/escapist.jpg',
 		description: 'Escape special characters in a string',
 	},
+	{
+		name: 'ASCII Art',
+		href: '/ascii',
+		preview: 'previews/ascii.jpg',
+		description: 'Convert an image to ASCII art',
+	},
 ];
