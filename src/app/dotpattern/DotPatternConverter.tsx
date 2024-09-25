@@ -7,7 +7,7 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 export default function DotPatternConverter() {
 	const [originalImage, setOriginalImage] = useState<string | null>(null);
 	const [convertedImage, setConvertedImage] = useState<string | null>(null);
-	const [dotSize, setDotSize] = useState<number>(5); // Default dot size in pixels
+	const [dotSize, setDotSize] = useState<number>(5);
 	const [comparePosition, setComparePosition] = useState<number>(50);
 	const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
