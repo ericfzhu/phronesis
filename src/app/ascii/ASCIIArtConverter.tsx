@@ -1,27 +1,10 @@
-// app/page.tsx
 'use client';
 
 import { IconCopy, IconDownload, IconRefresh, IconUpload } from '@tabler/icons-react';
 import { Courier_Prime } from 'next/font/google';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
-import { cn } from '@/lib/utils';
-
-// app/page.tsx
-
-// app/page.tsx
-
-// app/page.tsx
-
-// app/page.tsx
-
-// app/page.tsx
-
-// app/page.tsx
-
-// app/page.tsx
-
-const courier_prime = Courier_Prime({ subsets: ['latin'], weight: '400' });
+const CourierPrime = Courier_Prime({ subsets: ['latin'], weight: '400' });
 
 const ASCIIArtConverter: React.FC = () => {
 	const [image, setImage] = useState<string | null>(null);
@@ -35,17 +18,22 @@ const ASCIIArtConverter: React.FC = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const previewRef = useRef<HTMLDivElement>(null);
 
-	const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleImageUpload = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
+			processFile(file);
+		}
+	}, []);
+
+	function processFile(file: File) {
+		if (file.type.startsWith('image/')) {
 			const reader = new FileReader();
 			reader.onload = (e) => {
 				setImage(e.target?.result as string);
-				generateASCIIArt(e.target?.result as string);
 			};
 			reader.readAsDataURL(file);
 		}
-	};
+	}
 
 	const generateASCIIArt = useCallback(
 		(imageData: string) => {
@@ -103,7 +91,7 @@ const ASCIIArtConverter: React.FC = () => {
 						const adjusted = Math.max(0, Math.min(255, (brightness - blackPoint * 2.55) / ((whitePoint - blackPoint) * 0.0255)));
 
 						const charIndex = Math.floor((adjusted / 255) * (allChars.length - 1) * (sharpness / 100 + 0.5));
-						const char = allChars[charIndex];
+						const char = allChars[Math.min(charIndex, allChars.length - 1)];
 
 						const colorFactor = colorization / 100;
 						const colorR = Math.round(r * colorFactor + (1 - colorFactor) * adjusted);
@@ -146,7 +134,7 @@ const ASCIIArtConverter: React.FC = () => {
 
 		const data = `<svg xmlns="http://www.w3.org/2000/svg" width="${element.offsetWidth}" height="${element.offsetHeight}">
       <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: '${courier_prime.className}'; font-size: ${fontSize}px; line-height: 1;">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: '${CourierPrime.style.fontFamily}'; font-size: ${fontSize}px; line-height: 1;">
           ${asciiArt}
         </div>
       </foreignObject>
@@ -164,7 +152,7 @@ const ASCIIArtConverter: React.FC = () => {
 					link.click();
 					URL.revokeObjectURL(url);
 				}
-			});
+			}, 'image/png');
 		};
 		img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(data)}`;
 	};
@@ -208,7 +196,7 @@ const ASCIIArtConverter: React.FC = () => {
 	}, [asciiArt]);
 
 	return (
-		<div className={`container mx-auto p-4 ${courier_prime.className}`}>
+		<div className={`container mx-auto p-4 ${CourierPrime.className}`}>
 			<h1 className="text-2xl font-bold mb-4">ASCII Art Converter</h1>
 
 			<div className="mb-4">
@@ -233,6 +221,7 @@ const ASCIIArtConverter: React.FC = () => {
 			<div className="grid grid-cols-2 gap-4 mb-4">
 				<div>
 					<label className="block mb-2">Sharpness</label>
+					<div>{sharpness}</div>
 					<input
 						type="range"
 						min="0"
@@ -285,7 +274,7 @@ const ASCIIArtConverter: React.FC = () => {
 
 			<div
 				ref={previewRef}
-				className={cn('border p-4 h-96 overflow-hidden text-xs whitespace-pre bg-white', courier_prime.className)}
+				className="border p-4 h-96 overflow-hidden text-xs whitespace-pre bg-white"
 				dangerouslySetInnerHTML={{ __html: asciiArt }}
 				style={{ lineHeight: 1 }}></div>
 
