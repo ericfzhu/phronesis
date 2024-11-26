@@ -8,9 +8,7 @@ import { courierPrime } from '@/components/Fonts';
 
 export default function UserPage() {
 	return (
-		<main className={`min-h-screen bg-white ${courierPrime.className} cursor-none`}>
-			<CustomCursor />
-
+		<main className={`min-h-screen bg-white ${courierPrime.className}`}>
 			<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
 				<h1 className="text-3xl font-bold uppercase">Users</h1>
 			</div>
@@ -32,17 +30,13 @@ export default function UserPage() {
 										<h4 className="text-sm font-medium uppercase tracking-wider text-gray-500">Contact</h4>
 										<div className="flex items-center space-x-3">
 											<IconMail className="h-5 w-5 text-gray-500" />
-											<Link
-												href={`mailto:${user.email}`}
-												className="cursor-invert cursor-none transition-colors hover:text-blue-600">
+											<Link href={`mailto:${user.email}`} className="cursor-invert  transition-colors hover:text-blue-600">
 												{user.email}
 											</Link>
 										</div>
 										<div className="flex items-center space-x-3">
 											<IconPhone className="h-5 w-5 text-gray-500" />
-											<Link
-												href={`tel:${user.phone}`}
-												className="cursor-invert cursor-none transition-colors hover:text-blue-600">
+											<Link href={`tel:${user.phone}`} className="cursor-invert  transition-colors hover:text-blue-600">
 												{user.phone}
 											</Link>
 										</div>
@@ -52,7 +46,7 @@ export default function UserPage() {
 												href={`https://${user.website}`}
 												target="_blank"
 												rel="noopener noreferrer"
-												className="cursor-invert cursor-none transition-colors hover:text-blue-600">
+												className="cursor-invert  transition-colors hover:text-blue-600">
 												{user.website}
 											</Link>
 										</div>
@@ -68,7 +62,7 @@ export default function UserPage() {
 												)}`}
 												target="_blank"
 												rel="noopener noreferrer"
-												className="cursor-invert cursor-none transition-colors hover:text-blue-600">
+												className="cursor-invert  transition-colors hover:text-blue-600">
 												<div>
 													<p>{user.address.street}</p>
 													<p>{user.address.suite}</p>
