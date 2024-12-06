@@ -41,16 +41,16 @@ export const TOOLS = [
 		preview: 'previews/imageconverter.jpg',
 		description: 'Change image formats and sizes',
 	},
-	{
-		name: 'Escapist',
-		href: '/escapist',
-		preview: 'previews/escapist.jpg',
-		description: 'Escape special characters in a string',
-	},
-	{
-		name: 'ASCII Art',
-		href: '/ascii',
-		preview: 'previews/ascii.jpg',
-		description: 'Convert an image to ASCII art',
-	},
+	// {
+	// 	name: 'Escapist',
+	// 	href: '/escapist',
+	// 	preview: 'previews/escapist.jpg',
+	// 	description: 'Escape special characters in a string',
+	// },
+	// {
+	// 	name: 'ASCII Art',
+	// 	href: '/ascii',
+	// 	preview: 'previews/ascii.jpg',
+	// 	description: 'Convert an image to ASCII art',
+	// },
 ];
