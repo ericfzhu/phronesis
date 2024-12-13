@@ -17,7 +17,7 @@ export default function Home() {
 						</div>
 						<p className="text-2xl h-20">
 							<span className="font-semibold">{tool.name}</span>{' '}
-							<span className="text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+							<span className="text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 								{tool.description}
 							</span>
 						</p>

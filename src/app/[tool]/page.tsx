@@ -22,7 +22,7 @@ export default function ToolPage({ params }: Props) {
 	const ToolComponent = tool.component;
 
 	return (
-		<ToolLayout title={tool.name}>
+		<ToolLayout title={tool.name} description={tool.description}>
 			<ToolComponent />
 		</ToolLayout>
 	);
