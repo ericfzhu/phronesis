@@ -20,7 +20,7 @@ export const TOOLS = [
 	{
 		name: 'Colors & Palettes',
 		href: '/colorpalette',
-		preview: 'previews/colorpalette.jpg',
+		preview: 'previews/colorpalette.webp',
 		description: 'Pick colors and palettes from an image',
 	},
 	{
