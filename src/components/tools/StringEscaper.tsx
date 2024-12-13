@@ -16,7 +16,7 @@ function escapeString(str: string): string {
 	});
 }
 
-function StringEscaper() {
+export default function StringEscapeComponent() {
 	const [input, setInput] = useState('');
 	const [escaped, setEscaped] = useState('');
 
@@ -71,5 +71,3 @@ function StringEscaper() {
 		</div>
 	);
 }
-
-export default StringEscaper;

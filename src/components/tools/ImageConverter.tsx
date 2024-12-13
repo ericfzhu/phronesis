@@ -8,7 +8,7 @@ interface ImageDimensions {
 	height: number;
 }
 
-function ImageConverter() {
+export default function ImageConverterComponent() {
 	const [isImageDragging, setIsImageDragging] = useState<boolean>(false);
 	const [originalImage, setOriginalImage] = useState<string | null>(null);
 	const [selectedFormat, setSelectedFormat] = useState<string>('png');
@@ -259,5 +259,3 @@ function ImageConverter() {
 		</div>
 	);
 }
-
-export default ImageConverter;

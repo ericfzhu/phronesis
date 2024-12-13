@@ -83,7 +83,7 @@ function capitalize(str: string) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default function Home() {
+export default function LoremIpsumComponent() {
 	const [output, setOutput] = useState('');
 	const [count, setCount] = useState(1);
 	const [unit, setUnit] = useState('paragraphs');

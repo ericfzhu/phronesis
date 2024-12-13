@@ -6,7 +6,7 @@ import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 're
 
 const CourierPrime = Courier_Prime({ subsets: ['latin'], weight: '400' });
 
-const ASCIIArtConverter: React.FC = () => {
+export default function ASCIIArtComponent() {
 	const [image, setImage] = useState<string | null>(null);
 	const [asciiArt, setAsciiArt] = useState<string>('');
 	const [sharpness, setSharpness] = useState<number>(100);
@@ -281,6 +281,4 @@ const ASCIIArtConverter: React.FC = () => {
 			<canvas ref={canvasRef} className="hidden" />
 		</div>
 	);
-};
-
-export default ASCIIArtConverter;
+}

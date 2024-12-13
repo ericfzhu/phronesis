@@ -68,7 +68,7 @@ function gaussianBlur(imgData: ImageData, r: number, sigma: number): ImageData {
 	return new ImageData(result, width, height);
 }
 
-export default function GaussianBlurPage(): JSX.Element {
+export default function GaussianBlurComponent(): JSX.Element {
 	const [r, setR] = useState<number>(2);
 	const [sigma, setSigma] = useState<number>(5);
 	const [originalImage, setOriginalImage] = useState<string | null>(null);

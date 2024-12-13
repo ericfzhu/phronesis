@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 const courier_prime = Courier_Prime({ subsets: ['latin'], weight: '400' });
 
-function WordCounter() {
+export default function WordCounterComponent() {
 	const [text, setText] = useState('');
 
 	function countWords(str: string) {
@@ -42,5 +42,3 @@ function WordCounter() {
 		</div>
 	);
 }
-
-export default WordCounter;

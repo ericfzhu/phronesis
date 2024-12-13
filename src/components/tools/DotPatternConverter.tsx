@@ -4,7 +4,7 @@ import { IconDownload } from '@tabler/icons-react';
 import Image from 'next/image';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
-export default function DotPatternConverter() {
+export default function DotPatternComponent() {
 	const [originalImage, setOriginalImage] = useState<string | null>(null);
 	const [convertedImage, setConvertedImage] = useState<string | null>(null);
 	const [dotSize, setDotSize] = useState<number>(5);
