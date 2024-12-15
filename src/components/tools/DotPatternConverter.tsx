@@ -222,14 +222,12 @@ export default function DotPatternComponent() {
 		<div className="flex gap-4">
 			<div className="w-64 space-y-4">
 				<div
-					className={`border-2 border-dashed p-4 text-center rounded-sm ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
+					className={`border-2 border-dashed p-4 text-center ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
 					onDragOver={handleDragOver}
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}>
 					<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
-					<button
-						onClick={() => fileInputRef.current?.click()}
-						className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4 rounded-sm">
+					<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4">
 						Select Image
 					</button>
 					<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
@@ -257,7 +255,7 @@ export default function DotPatternComponent() {
 							<button
 								key={shapeOption}
 								onClick={() => setShape(shapeOption)}
-								className={`p-2 border rounded-sm border-dotted ${
+								className={`p-2 border rounded-sm ${
 									shape === shapeOption ? 'bg-zinc-200 border-zinc-400' : 'border-zinc-300 hover:bg-zinc-100'
 								}`}>
 								{shapeOption.charAt(0).toUpperCase() + shapeOption.slice(1)}
@@ -275,7 +273,7 @@ export default function DotPatternComponent() {
 									<button
 										key={format}
 										onClick={() => setImageFormat(format)}
-										className={`p-2 border rounded-sm border-dotted ${
+										className={`p-2 border rounded-sm ${
 											imageFormat === format ? 'bg-zinc-200 border-zinc-400' : 'border-zinc-300 hover:bg-zinc-100'
 										}`}>
 										{format.toUpperCase()}
@@ -313,53 +311,63 @@ export default function DotPatternComponent() {
 				)}
 			</div>
 
-			{originalImage && convertedImage && imageDimensions && (
-				<div className="flex-1 flex flex-col items-center">
-					<div
-						className="relative"
-						ref={compareContainerRef}
-						style={{
-							width: imageDimensions.width >= imageDimensions.height ? '60vw' : 'auto',
-							height: imageDimensions.height > imageDimensions.width ? '60vw' : 'auto',
-							maxWidth: '100%',
-							maxHeight: '50vw',
-							aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}`,
-						}}>
-						<Image
-							src={originalImage}
-							alt="Original"
-							className="absolute top-0 left-0 select-none pointer-events-none object-contain"
-							style={{
-								clipPath: `inset(0 ${100 - comparePosition}% 0 0)`,
-							}}
-							fill
-							sizes="50vw"
-						/>
-						<Image
-							src={convertedImage}
-							alt="Converted"
-							className="absolute top-0 left-0 select-none pointer-events-none object-contain"
-							style={{
-								clipPath: `inset(0 0 0 ${comparePosition}%)`,
-							}}
-							fill
-							sizes="50vw"
-						/>
-						<div
-							ref={sliderRef}
-							style={{
-								position: 'absolute',
-								top: 0,
-								left: `${comparePosition}%`,
-								width: '4px',
-								height: '100%',
-								backgroundColor: 'white',
-								cursor: 'ew-resize',
-							}}
-							onMouseDown={handleSliderDrag}
-						/>
+			{!originalImage ? (
+				<div className="flex-1 flex items-center justify-center">
+					<div className="border-2 border-dashed border-zinc-300 rounded-sm w-[50vw] h-[50vh] flex items-center justify-center text-zinc-500">
+						Upload an image to get started
 					</div>
 				</div>
+			) : (
+				originalImage &&
+				convertedImage &&
+				imageDimensions && (
+					<div className="flex-1 flex flex-col items-center">
+						<div
+							className="relative"
+							ref={compareContainerRef}
+							style={{
+								width: imageDimensions.width >= imageDimensions.height ? '50vw' : 'auto',
+								height: imageDimensions.height > imageDimensions.width ? '50vw' : 'auto',
+								maxWidth: '100%',
+								maxHeight: '50vw',
+								aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}`,
+							}}>
+							<Image
+								src={originalImage}
+								alt="Original"
+								className="absolute top-0 left-0 select-none pointer-events-none object-contain"
+								style={{
+									clipPath: `inset(0 ${100 - comparePosition}% 0 0)`,
+								}}
+								fill
+								sizes="50vw"
+							/>
+							<Image
+								src={convertedImage}
+								alt="Converted"
+								className="absolute top-0 left-0 select-none pointer-events-none object-contain"
+								style={{
+									clipPath: `inset(0 0 0 ${comparePosition}%)`,
+								}}
+								fill
+								sizes="50vw"
+							/>
+							<div
+								ref={sliderRef}
+								style={{
+									position: 'absolute',
+									top: 0,
+									left: `${comparePosition}%`,
+									width: '4px',
+									height: '100%',
+									backgroundColor: 'white',
+									cursor: 'ew-resize',
+								}}
+								onMouseDown={handleSliderDrag}
+							/>
+						</div>
+					</div>
+				)
 			)}
 			<canvas ref={canvasRef} style={{ display: 'none' }} />
 		</div>
