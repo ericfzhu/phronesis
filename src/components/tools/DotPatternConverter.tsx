@@ -4,10 +4,13 @@ import { IconDownload } from '@tabler/icons-react';
 import Image from 'next/image';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
+type ShapeType = 'circle' | 'square' | 'heart';
+
 export default function DotPatternComponent() {
 	const [originalImage, setOriginalImage] = useState<string | null>(null);
 	const [convertedImage, setConvertedImage] = useState<string | null>(null);
 	const [dotSize, setDotSize] = useState<number>(5);
+	const [shape, setShape] = useState<ShapeType>('circle');
 	const [comparePosition, setComparePosition] = useState<number>(50);
 	const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -45,6 +48,46 @@ export default function DotPatternComponent() {
 		setDotSize(Number(event.target.value));
 	}, []);
 
+	const drawShape = useCallback((ctx: CanvasRenderingContext2D, x: number, y: number, size: number, shape: ShapeType) => {
+		switch (shape) {
+			case 'circle':
+				ctx.beginPath();
+				ctx.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
+				ctx.fill();
+				break;
+			case 'square':
+				ctx.fillRect(x, y, size, size);
+				break;
+			case 'heart':
+				const topX = x + size / 2;
+				const topY = y + size / 4; // Moved top point up
+				const scale = size / 18; // Increased overall scale
+
+				ctx.beginPath();
+				ctx.moveTo(topX, topY);
+				// Left curve
+				ctx.bezierCurveTo(
+					topX - 8 * scale,
+					topY - 5 * scale, // Control point 1
+					topX - 16 * scale,
+					topY + 5 * scale, // Control point 2
+					topX,
+					topY + 18 * scale, // Bottom point moved down
+				);
+				// Right curve
+				ctx.bezierCurveTo(
+					topX + 18 * scale,
+					topY + 5 * scale, // Control point 1
+					topX + 6 * scale,
+					topY - 5 * scale, // Control point 2
+					topX,
+					topY,
+				);
+				ctx.fill();
+				break;
+		}
+	}, []);
+
 	const convertImage = useCallback(() => {
 		if (!originalImage || !canvasRef.current) return;
 
@@ -71,7 +114,7 @@ export default function DotPatternComponent() {
 			dotCanvas.height = canvas.height;
 			const dotCtx = dotCanvas.getContext('2d')!;
 
-			// Create dot pattern
+			// Create pattern
 			for (let y = 0; y < canvas.height; y += dotSize) {
 				for (let x = 0; x < canvas.width; x += dotSize) {
 					let r = 0,
@@ -79,7 +122,7 @@ export default function DotPatternComponent() {
 						b = 0,
 						count = 0;
 
-					// Calculate average color for the dot area
+					// Calculate average color for the area
 					for (let dy = 0; dy < dotSize && y + dy < canvas.height; dy++) {
 						for (let dx = 0; dx < dotSize && x + dx < canvas.width; dx++) {
 							const i = ((y + dy) * canvas.width + (x + dx)) * 4;
@@ -90,11 +133,9 @@ export default function DotPatternComponent() {
 						}
 					}
 
-					// Draw the dot
+					// Draw the shape
 					dotCtx.fillStyle = `rgb(${Math.round(r / count)}, ${Math.round(g / count)}, ${Math.round(b / count)})`;
-					dotCtx.beginPath();
-					dotCtx.arc(x + dotSize / 2, y + dotSize / 2, dotSize / 2, 0, Math.PI * 2);
-					dotCtx.fill();
+					drawShape(dotCtx, x, y, dotSize, shape);
 				}
 			}
 
@@ -102,7 +143,7 @@ export default function DotPatternComponent() {
 			setConvertedImage(dotCanvas.toDataURL('image/png'));
 		};
 		img.src = originalImage;
-	}, [originalImage, dotSize]);
+	}, [originalImage, dotSize, shape, drawShape]);
 
 	const handleSliderDrag = useCallback(
 		(e: React.MouseEvent<HTMLDivElement>) => {
@@ -152,27 +193,55 @@ export default function DotPatternComponent() {
 		if (originalImage) {
 			convertImage();
 		}
-	}, [originalImage, dotSize, convertImage]);
+	}, [originalImage, dotSize, shape, convertImage]);
 
 	return (
-		<div className="space-y-4">
-			<div
-				className={`border-2 border-dashed p-4 text-center ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
-				onDragOver={handleDragOver}
-				onDragLeave={handleDragLeave}
-				onDrop={handleDrop}>
-				<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
-				<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4">
-					Select Image
-				</button>
-				<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
+		<div className="flex gap-4">
+			<div className="w-64 space-y-4">
+				<div
+					className={`border-2 border-dashed rounded-sm p-4 text-center ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
+					onDragOver={handleDragOver}
+					onDragLeave={handleDragLeave}
+					onDrop={handleDrop}>
+					<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
+					<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4">
+						Select Image
+					</button>
+					<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
+				</div>
+				<div className="space-y-2">
+					<label htmlFor="dotSize" className="block">
+						Dot Size: {dotSize}px
+					</label>
+					<input
+						type="range"
+						id="dotSize"
+						value={dotSize}
+						onChange={handleDotSizeChange}
+						min="1"
+						max="50"
+						className="w-full accent-zinc-500"
+					/>
+				</div>
+				<div className="space-y-2">
+					<label className="block">Shape</label>
+					<div className="grid grid-cols-3 gap-2">
+						{(['circle', 'square', 'heart'] as const).map((shapeOption) => (
+							<button
+								key={shapeOption}
+								onClick={() => setShape(shapeOption)}
+								className={`p-2 border rounded-sm border-dotted ${
+									shape === shapeOption ? 'bg-zinc-200 border-zinc-400' : 'border-zinc-300 hover:bg-zinc-100'
+								}`}>
+								{shapeOption.charAt(0).toUpperCase() + shapeOption.slice(1)}
+							</button>
+						))}
+					</div>
+				</div>
 			</div>
-			<div className="flex items-center space-x-2">
-				<label htmlFor="dotSize">Dot Size: {dotSize}px</label>
-				<input type="range" id="dotSize" value={dotSize} onChange={handleDotSizeChange} min="1" max="50" className="w-full accent-zinc-500" />
-			</div>
+
 			{originalImage && convertedImage && imageDimensions && (
-				<div className="flex flex-col items-center space-y-4">
+				<div className="flex-1 flex flex-col items-center space-y-4">
 					<div
 						className="relative"
 						ref={compareContainerRef}
