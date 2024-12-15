@@ -5,12 +5,15 @@ import Image from 'next/image';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 type ShapeType = 'circle' | 'square' | 'heart';
+type ImageFormat = 'png' | 'jpeg' | 'webp';
 
 export default function DotPatternComponent() {
 	const [originalImage, setOriginalImage] = useState<string | null>(null);
 	const [convertedImage, setConvertedImage] = useState<string | null>(null);
 	const [dotSize, setDotSize] = useState<number>(5);
 	const [shape, setShape] = useState<ShapeType>('circle');
+	const [imageFormat, setImageFormat] = useState<ImageFormat>('png');
+	const [imageQuality, setImageQuality] = useState<number>(0.92);
 	const [comparePosition, setComparePosition] = useState<number>(50);
 	const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -169,15 +172,35 @@ export default function DotPatternComponent() {
 	);
 
 	const handleDownload = useCallback(() => {
-		if (convertedImage) {
+		if (convertedImage && canvasRef.current) {
+			const canvas = canvasRef.current;
+			let mimeType: string;
+			let filename: string;
+			let quality = imageFormat === 'png' ? undefined : imageQuality;
+
+			switch (imageFormat) {
+				case 'jpeg':
+					mimeType = 'image/jpeg';
+					filename = 'converted-image.jpg';
+					break;
+				case 'webp':
+					mimeType = 'image/webp';
+					filename = 'converted-image.webp';
+					break;
+				default:
+					mimeType = 'image/png';
+					filename = 'converted-image.png';
+			}
+
+			const dataUrl = canvas.toDataURL(mimeType, quality);
 			const link = document.createElement('a');
-			link.href = convertedImage;
-			link.download = 'converted-image.png';
+			link.href = dataUrl;
+			link.download = filename;
 			document.body.appendChild(link);
 			link.click();
 			document.body.removeChild(link);
 		}
-	}, [convertedImage]);
+	}, [convertedImage, imageFormat, imageQuality]);
 
 	function processFile(file: File) {
 		if (file.type.startsWith('image/')) {
@@ -199,16 +222,19 @@ export default function DotPatternComponent() {
 		<div className="flex gap-4">
 			<div className="w-64 space-y-4">
 				<div
-					className={`border-2 border-dashed rounded-sm p-4 text-center ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
+					className={`border-2 border-dashed p-4 text-center rounded-sm ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
 					onDragOver={handleDragOver}
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}>
 					<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
-					<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4">
+					<button
+						onClick={() => fileInputRef.current?.click()}
+						className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4 rounded-sm">
 						Select Image
 					</button>
 					<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
 				</div>
+
 				<div className="space-y-2">
 					<label htmlFor="dotSize" className="block">
 						Dot Size: {dotSize}px
@@ -223,6 +249,7 @@ export default function DotPatternComponent() {
 						className="w-full accent-zinc-500"
 					/>
 				</div>
+
 				<div className="space-y-2">
 					<label className="block">Shape</label>
 					<div className="grid grid-cols-3 gap-2">
@@ -238,16 +265,62 @@ export default function DotPatternComponent() {
 						))}
 					</div>
 				</div>
+
+				{convertedImage && (
+					<div className="space-y-4 border-t pt-4">
+						<div className="space-y-2">
+							<label className="block">Download Format</label>
+							<div className="grid grid-cols-3 gap-2">
+								{(['png', 'jpeg', 'webp'] as const).map((format) => (
+									<button
+										key={format}
+										onClick={() => setImageFormat(format)}
+										className={`p-2 border rounded-sm border-dotted ${
+											imageFormat === format ? 'bg-zinc-200 border-zinc-400' : 'border-zinc-300 hover:bg-zinc-100'
+										}`}>
+										{format.toUpperCase()}
+									</button>
+								))}
+							</div>
+						</div>
+
+						{imageFormat !== 'png' && (
+							<div className="space-y-2">
+								<label htmlFor="quality" className="block">
+									Quality: {Math.round(imageQuality * 100)}%
+								</label>
+								<input
+									type="range"
+									id="quality"
+									value={imageQuality}
+									onChange={(e) => setImageQuality(Number(e.target.value))}
+									min="0.1"
+									max="1"
+									step="0.01"
+									className="w-full accent-zinc-500"
+								/>
+							</div>
+						)}
+
+						<button
+							onClick={handleDownload}
+							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2"
+							aria-label="Download converted image">
+							<IconDownload size={20} />
+							<span>Download</span>
+						</button>
+					</div>
+				)}
 			</div>
 
 			{originalImage && convertedImage && imageDimensions && (
-				<div className="flex-1 flex flex-col items-center space-y-4">
+				<div className="flex-1 flex flex-col items-center">
 					<div
 						className="relative"
 						ref={compareContainerRef}
 						style={{
-							width: imageDimensions.width >= imageDimensions.height ? '50vw' : 'auto',
-							height: imageDimensions.height > imageDimensions.width ? '50vw' : 'auto',
+							width: imageDimensions.width >= imageDimensions.height ? '60vw' : 'auto',
+							height: imageDimensions.height > imageDimensions.width ? '60vw' : 'auto',
 							maxWidth: '100%',
 							maxHeight: '50vw',
 							aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}`,
@@ -286,12 +359,6 @@ export default function DotPatternComponent() {
 							onMouseDown={handleSliderDrag}
 						/>
 					</div>
-					<button
-						onClick={handleDownload}
-						className="bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded"
-						aria-label="Download converted image">
-						<IconDownload size={24} />
-					</button>
 				</div>
 			)}
 			<canvas ref={canvasRef} style={{ display: 'none' }} />
