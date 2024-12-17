@@ -1,31 +1,21 @@
 'use client';
 
 import { IconDownload } from '@tabler/icons-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 export default function SquareIconComponent() {
-	const [color, setColor] = useState('#DABABD');
-	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const [color, setColor] = useState('#BF5CFF');
+	const [inputValue, setInputValue] = useState('#BF5CFF');
 	const colorInputRef = useRef<HTMLInputElement>(null);
 
-	useEffect(() => {
-		generateImage();
-	}, [color]);
-
-	function generateImage() {
-		const canvas = canvasRef.current;
-		if (canvas) {
-			const ctx = canvas.getContext('2d');
-			if (ctx) {
-				ctx.fillStyle = color;
-				ctx.fillRect(0, 0, 10, 10);
-			}
-		}
-	}
-
 	function downloadImage() {
-		const canvas = canvasRef.current;
-		if (canvas) {
+		const canvas = document.createElement('canvas');
+		canvas.width = 10;
+		canvas.height = 10;
+		const ctx = canvas.getContext('2d');
+		if (ctx) {
+			ctx.fillStyle = color;
+			ctx.fillRect(0, 0, 10, 10);
 			const dataUrl = canvas.toDataURL('image/jpeg');
 			const link = document.createElement('a');
 			link.href = dataUrl;
@@ -34,44 +24,63 @@ export default function SquareIconComponent() {
 		}
 	}
 
-	function handleSquareClick() {
-		if (colorInputRef.current) {
-			colorInputRef.current.click();
+	function handleColorInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+		const newValue = e.target.value;
+		setInputValue(newValue);
+
+		// Allow typing in the input field regardless of validity
+		const isValidHex = /^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
+		const isValidHsl = /^hsl\(\s*\d+\s*,\s*\d+%?\s*,\s*\d+%?\s*\)$/;
+
+		// Update color only if it's a valid format
+		if (isValidHex.test(newValue)) {
+			// Ensure hex color has # prefix
+			const formattedColor = newValue.startsWith('#') ? newValue : `#${newValue}`;
+			setColor(formattedColor);
+		} else if (isValidHsl.test(newValue)) {
+			setColor(newValue);
 		}
 	}
 
-	function handleColorChange(e: React.ChangeEvent<HTMLInputElement>) {
-		setColor(e.target.value);
-	}
-
-	function handleHexChange(e: React.ChangeEvent<HTMLInputElement>) {
+	function handleColorPickerChange(e: React.ChangeEvent<HTMLInputElement>) {
 		const newColor = e.target.value;
-		if (/^#[0-9A-F]{6}$/i.test(newColor)) {
-			setColor(newColor);
-		}
+		setColor(newColor);
+		setInputValue(newColor);
 	}
 
 	return (
-		<div className="flex flex-col items-center space-y-4 p-4">
-			<div className="relative w-80 h-80 cursor-pointer" onClick={handleSquareClick}>
-				<canvas ref={canvasRef} width={10} height={10} className="border border-zinc-300 w-full h-full" />
-				<input
-					ref={colorInputRef}
-					type="color"
-					value={color}
-					onChange={handleColorChange}
-					className="opacity-0 absolute inset-0 w-full h-full"
-				/>
+		<div className="flex items-center justify-center mt-20">
+			<div className="space-y-6 w-64">
+				<div className="space-y-2">
+					<input
+						type="text"
+						value={inputValue}
+						onChange={handleColorInputChange}
+						className="w-full p-2 border border-zinc-300 rounded-sm"
+						placeholder="Enter color (hex, rgb, hsl)"
+					/>
+				</div>
+
+				<div className="space-y-2">
+					<div className="relative w-64 h-64 border border-zinc-200 rounded-sm overflow-hidden">
+						<input
+							ref={colorInputRef}
+							type="color"
+							value={color}
+							onChange={handleColorPickerChange}
+							className="absolute inset-0 w-full h-full cursor-pointer"
+						/>
+					</div>
+				</div>
+
+				<button
+					onClick={downloadImage}
+					className="w-full bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2"
+					aria-label="Download square icon">
+					<IconDownload size={20} />
+					<span>Download</span>
+				</button>
 			</div>
-
-			<input type="text" value={color} onChange={handleHexChange} className="p-2 border border-zinc-300  text-center uppercase" maxLength={7} />
-
-			<button
-				onClick={downloadImage}
-				className="flex items-center space-x-2 px-4 py-2 bg-zinc-500 text-white  hover:bg-zinc-600 transition-colors">
-				<IconDownload size={18} />
-				<span>Download</span>
-			</button>
 		</div>
 	);
 }
