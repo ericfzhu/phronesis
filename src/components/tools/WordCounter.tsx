@@ -25,7 +25,7 @@ export default function WordCounterComponent() {
 		<div className="flex justify-center items-center">
 			<div className="w-full max-w-4xl bg-white relative">
 				<textarea
-					className="w-full p-2 border border-zinc-300 mb-4 bg-transparent z-10 h-[80vh]"
+					className="w-full p-2 border border-zinc-300 mb-4 bg-transparent z-10 h-[calc(100vh-30rem)]"
 					value={text}
 					onChange={(e) => setText(e.target.value)}
 					placeholder="Type or paste your text here..."
