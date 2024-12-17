@@ -227,7 +227,7 @@ export default function DotPatternComponent() {
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}>
 					<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
-					<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4">
+					<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 py-2 px-4">
 						Select Image
 					</button>
 					<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
@@ -235,7 +235,7 @@ export default function DotPatternComponent() {
 
 				<div className="space-y-2">
 					<label htmlFor="dotSize" className="block">
-						Dot Size: {dotSize}px
+						Size: {dotSize}px
 					</label>
 					<input
 						type="range"
@@ -256,7 +256,7 @@ export default function DotPatternComponent() {
 								key={shapeOption}
 								onClick={() => setShape(shapeOption)}
 								className={`p-2 border rounded-sm ${
-									shape === shapeOption ? 'bg-zinc-200 border-zinc-400' : 'border-zinc-300 hover:bg-zinc-100'
+									shape === shapeOption ? 'bg-zinc-200 border-zinc-400 hover:bg-zinc-300' : 'border-zinc-300 hover:bg-zinc-100'
 								}`}>
 								{shapeOption.charAt(0).toUpperCase() + shapeOption.slice(1)}
 							</button>
@@ -267,14 +267,16 @@ export default function DotPatternComponent() {
 				{convertedImage && (
 					<div className="space-y-4 border-t pt-4">
 						<div className="space-y-2">
-							<label className="block">Download Format</label>
+							<label className="block">Format</label>
 							<div className="grid grid-cols-3 gap-2">
 								{(['png', 'jpeg', 'webp'] as const).map((format) => (
 									<button
 										key={format}
 										onClick={() => setImageFormat(format)}
 										className={`p-2 border rounded-sm ${
-											imageFormat === format ? 'bg-zinc-200 border-zinc-400' : 'border-zinc-300 hover:bg-zinc-100'
+											imageFormat === format
+												? 'bg-zinc-200 border-zinc-400 hover:bg-zinc-300'
+												: 'border-zinc-300 hover:bg-zinc-100'
 										}`}>
 										{format.toUpperCase()}
 									</button>

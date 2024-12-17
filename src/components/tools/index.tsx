@@ -1,6 +1,6 @@
 import ASCIIArtComponent from './ASCIIArtConverter';
 import ColorPickerComponent from './ColorPicker';
-import DotPatternComponent from './DotPatternConverter';
+import DotPatternComponent from './DotPatternComponent';
 import GaussianBlurComponent from './GaussianBlur';
 import ImageConverterComponent from './ImageConverter';
 import LoremIpsumComponent from './LoremIpsum';
