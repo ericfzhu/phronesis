@@ -201,21 +201,24 @@ export default function GaussianBlurComponent(): JSX.Element {
 	}
 
 	return (
-		<div className="container mx-auto p-4">
-			<div className="space-y-4">
+		<div className="flex gap-4">
+			<div className="w-64 space-y-4">
 				<div
 					className={`border-2 border-dashed p-4 text-center ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
 					onDragOver={handleDragOver}
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}>
 					<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
-					<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 duration-300 font-bold py-2 px-4">
+					<button onClick={() => fileInputRef.current?.click()} className="bg-zinc-200 hover:bg-zinc-300 py-2 px-4">
 						Select Image
 					</button>
 					<p className="mt-2 text-sm text-zinc-600">or drag and drop an image here</p>
 				</div>
-				<div className="flex items-center space-x-2">
-					<label htmlFor="r">Radius (r): {r.toFixed(1)}</label>
+
+				<div className="space-y-2">
+					<label htmlFor="r" className="block">
+						Radius: {r.toFixed(1)}px
+					</label>
 					<input
 						type="range"
 						id="r"
@@ -229,8 +232,11 @@ export default function GaussianBlurComponent(): JSX.Element {
 						className="w-full accent-zinc-500"
 					/>
 				</div>
-				<div className="flex items-center space-x-2">
-					<label htmlFor="sigma">Sigma: {sigma.toFixed(1)}</label>
+
+				<div className="space-y-2">
+					<label htmlFor="sigma" className="block">
+						Sigma: {sigma.toFixed(1)}
+					</label>
 					<input
 						type="range"
 						id="sigma"
@@ -244,14 +250,39 @@ export default function GaussianBlurComponent(): JSX.Element {
 						className="w-full accent-zinc-500"
 					/>
 				</div>
-				{originalImage && blurredImage && imageDimensions && (
-					<div className="flex flex-col items-center space-y-4">
+
+				{blurredImage && (
+					<div className="space-y-4 border-t pt-4">
+						<button
+							onClick={handleDownload}
+							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2"
+							aria-label="Download blurred image">
+							<IconDownload size={20} />
+							<span>Download</span>
+						</button>
+					</div>
+				)}
+			</div>
+
+			{!originalImage ? (
+				<div className="flex-1 flex items-center justify-center">
+					<div className="border-2 border-dashed border-zinc-300 rounded-sm w-[50vw] h-[50vh] flex items-center justify-center text-zinc-500">
+						Upload an image to get started
+					</div>
+				</div>
+			) : (
+				originalImage &&
+				blurredImage &&
+				imageDimensions && (
+					<div className="flex-1 flex flex-col items-center">
 						<div
 							className="relative"
 							ref={compareContainerRef}
 							style={{
-								width: `min(50vw, ${imageDimensions.width}px)`,
-								height: `min(50vw, ${imageDimensions.height}px)`,
+								width: imageDimensions.width >= imageDimensions.height ? '50vw' : 'auto',
+								height: imageDimensions.height > imageDimensions.width ? '50vw' : 'auto',
+								maxWidth: '100%',
+								maxHeight: '50vw',
 								aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}`,
 							}}>
 							<Image
@@ -288,16 +319,10 @@ export default function GaussianBlurComponent(): JSX.Element {
 								onMouseDown={handleSliderDrag}
 							/>
 						</div>
-						<button
-							onClick={handleDownload}
-							className="bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded"
-							aria-label="Download blurred image">
-							<IconDownload size={24} />
-						</button>
 					</div>
-				)}
-				<canvas ref={canvasRef} style={{ display: 'none' }} />
-			</div>
+				)
+			)}
+			<canvas ref={canvasRef} style={{ display: 'none' }} />
 		</div>
 	);
 }

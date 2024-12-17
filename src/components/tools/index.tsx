@@ -1,10 +1,10 @@
 import ASCIIArtComponent from './ASCIIArtConverter';
 import ColorPickerComponent from './ColorPicker';
 import DotPatternComponent from './DotPatternComponent';
-import GaussianBlurComponent from './GaussianBlur';
+import GaussianBlurComponent from './GaussianBlurComponent';
 import ImageConverterComponent from './ImageConverter';
 import LoremIpsumComponent from './LoremIpsumComponent';
-import SquareIconComponent from './Square';
+import SquareIconComponent from './SquareIconComponent';
 import StringEscapeComponent from './StringEscaper';
 import WordCounterComponent from './WordCounter';
 
