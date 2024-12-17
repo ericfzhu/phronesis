@@ -315,7 +315,7 @@ export default function DotPatternComponent() {
 
 			{!originalImage ? (
 				<div className="flex-1 flex items-center justify-center">
-					<div className="border-2 border-dashed border-zinc-300 rounded-sm w-[50vw] h-[50vh] flex items-center justify-center text-zinc-500">
+					<div className="border-2 border-dashed border-zinc-300 rounded-sm w-[70vw] h-[70vh] flex items-center justify-center text-zinc-500">
 						Upload an image to get started
 					</div>
 				</div>
@@ -328,10 +328,10 @@ export default function DotPatternComponent() {
 							className="relative"
 							ref={compareContainerRef}
 							style={{
-								width: imageDimensions.width >= imageDimensions.height ? '50vw' : 'auto',
-								height: imageDimensions.height > imageDimensions.width ? '50vw' : 'auto',
+								width: imageDimensions.width >= imageDimensions.height ? '70vw' : 'auto',
+								height: imageDimensions.height > imageDimensions.width ? '70vw' : 'auto',
 								maxWidth: '100%',
-								maxHeight: '50vw',
+								maxHeight: '70vh',
 								aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}`,
 							}}>
 							<Image

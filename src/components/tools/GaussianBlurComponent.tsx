@@ -282,7 +282,7 @@ export default function GaussianBlurComponent(): JSX.Element {
 								width: imageDimensions.width >= imageDimensions.height ? '50vw' : 'auto',
 								height: imageDimensions.height > imageDimensions.width ? '50vw' : 'auto',
 								maxWidth: '100%',
-								maxHeight: '50vw',
+								maxHeight: '70vh',
 								aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}`,
 							}}>
 							<Image
