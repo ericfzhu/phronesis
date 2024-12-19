@@ -1,12 +1,12 @@
 import ASCIIArtComponent from './ASCIIArtConverter';
-import ColorPickerComponent from './ColorPicker';
+import ColorPickerComponent from './ColorPickerComponent';
 import DotPatternComponent from './DotPatternComponent';
 import GaussianBlurComponent from './GaussianBlurComponent';
-import ImageConverterComponent from './ImageConverter';
+import ImageConverterComponent from './ImageConverterComponent';
 import LoremIpsumComponent from './LoremIpsumComponent';
 import SquareIconComponent from './SquareIconComponent';
-import StringEscapeComponent from './StringEscaper';
-import WordCounterComponent from './WordCounter';
+import StringEscapeComponent from './StringEscapeComponent';
+import WordCounterComponent from './WordCounterComponent';
 
 export {
 	ASCIIArtComponent,

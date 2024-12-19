@@ -58,12 +58,13 @@ export const TOOLS: Tool[] = [
 		description: 'Change image formats and sizes',
 		component: tools.ImageConverterComponent,
 	},
-	// {
-	// 	name: 'Escapist',
-	// 	href: '/escapist',
-	// 	preview: 'previews/escapist.jpg',
-	// 	description: 'Escape special characters in a string',
-	// },
+	{
+		name: 'String Sanitizer',
+		href: '/sanitizer',
+		preview: 'previews/sanitizer.webp',
+		description: 'Escapes string for JavaScript compatibility',
+		component: tools.StringEscapeComponent,
+	},
 	// {
 	// 	name: 'ASCII Art',
 	// 	href: '/ascii',
