@@ -65,12 +65,13 @@ export const TOOLS: Tool[] = [
 		description: 'Escapes string for JavaScript compatibility',
 		component: tools.StringEscapeComponent,
 	},
-	// {
-	// 	name: 'ASCII Art',
-	// 	href: '/ascii',
-	// 	preview: 'previews/ascii.jpg',
-	// 	description: 'Convert an image to ASCII art',
-	// },
+	{
+		name: 'ASCII Art',
+		href: '/ascii',
+		preview: 'previews/ascii.jpg',
+		description: 'Convert an image to ASCII art',
+		component: tools.AsciiArtComponent,
+	},
 ];
 
 export function getToolByPath(path: string): Tool | undefined {

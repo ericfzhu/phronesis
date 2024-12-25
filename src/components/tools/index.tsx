@@ -1,4 +1,4 @@
-import ASCIIArtComponent from './ASCIIArtConverter';
+import AsciiArtComponent from './AsciiArtComponent';
 import ColorPickerComponent from './ColorPickerComponent';
 import DotPatternComponent from './DotPatternComponent';
 import GaussianBlurComponent from './GaussianBlurComponent';
@@ -9,7 +9,7 @@ import StringEscapeComponent from './StringEscapeComponent';
 import WordCounterComponent from './WordCounterComponent';
 
 export {
-	ASCIIArtComponent,
+	AsciiArtComponent,
 	ColorPickerComponent,
 	DotPatternComponent,
 	GaussianBlurComponent,
