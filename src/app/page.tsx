@@ -9,7 +9,7 @@ export default function Home() {
 		<main className="flex min-h-screen flex-col px-20 py-12 gap-12">
 			<Header />
 
-			<div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+			<div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
 				{TOOLS.map((tool) => (
 					<Link key={tool.name} className="group flex flex-col" href={tool.href}>
 						<div className="w-full flex items-end mb-4 flex-grow">
