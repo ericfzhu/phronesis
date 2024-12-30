@@ -68,9 +68,16 @@ export const TOOLS: Tool[] = [
 	{
 		name: 'ASCII Art',
 		href: '/ascii',
-		preview: 'previews/ascii.jpg',
+		preview: 'previews/ascii.webp',
 		description: 'Convert an image to ASCII art',
 		component: tools.AsciiArtComponent,
+	},
+	{
+		name: 'Flatpack',
+		href: '/flatpack',
+		preview: 'previews/flatpack.jpg',
+		description: 'Convert a project into a single text file',
+		component: tools.FlatpackComponent,
 	},
 ];
 
