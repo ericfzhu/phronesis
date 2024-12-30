@@ -304,7 +304,7 @@ export default function DotPatternComponent() {
 
 						<button
 							onClick={handleDownload}
-							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2"
+							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white p-2 rounded-sm flex items-center justify-center gap-2"
 							aria-label="Download converted image">
 							<IconDownload size={20} />
 							<span>Download</span>

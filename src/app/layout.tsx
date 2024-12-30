@@ -1,3 +1,4 @@
+import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 
@@ -16,7 +17,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<link rel="icon" href="/icon.jpg" />
-			<body className={GeistSans.className}>{children}</body>
+			<body className={GeistMono.className}>{children}</body>
 		</html>
 	);
 }

@@ -4,6 +4,8 @@ import { IconDownload } from '@tabler/icons-react';
 import Image from 'next/image';
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
+import { cn } from '@/lib/utils';
+
 interface ImageDimensions {
 	width: number;
 	height: number;
@@ -392,7 +394,7 @@ export default function AsciiArtComponent() {
 			<div className="w-full md:w-64 space-y-4">
 				{/* Image Upload Area */}
 				<div
-					className={`border-2 border-dashed p-4 text-center ${isDragging ? 'border-zinc-500 bg-zinc-100' : 'border-zinc-300'}`}
+					className={`border-2 border-dashed p-4 text-center border-zinc-300`}
 					onDragOver={handleDragOver}
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}>
@@ -427,7 +429,7 @@ export default function AsciiArtComponent() {
 						<button
 							onClick={generateAscii}
 							disabled={isGenerating}
-							className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2 disabled:opacity-50">
+							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white p-2 rounded-sm flex items-center justify-center gap-2 disabled:opacity-50">
 							{isGenerating ? 'Generating...' : 'Generate ASCII Art'}
 						</button>
 					</div>
@@ -438,12 +440,19 @@ export default function AsciiArtComponent() {
 					<div className="flex space-x-2 mt-4">
 						<button
 							onClick={() => setIsColor(true)}
-							className={`flex-1 ${isColor ? 'bg-blue-500' : 'bg-zinc-500'} hover:bg-blue-700 text-white font-bold p-2 rounded-sm`}>
+							className={cn(
+								'flex-1',
+								isColor ? 'bg-zinc-200 border-zinc-400 hover:bg-zinc-300' : 'border-zinc-300 hover:bg-zinc-100',
+								'border p-2 rounded-sm',
+							)}>
 							Color
 						</button>
 						<button
 							onClick={() => setIsColor(false)}
-							className={`flex-1 ${!isColor ? 'bg-blue-500' : 'bg-zinc-500'} hover:bg-blue-700 text-white font-bold p-2 rounded-sm`}>
+							className={cn(
+								'flex-1 border p-2 rounded-sm',
+								!isColor ? 'bg-zinc-200 border-zinc-400 hover:bg-zinc-300' : 'border-zinc-300 hover:bg-zinc-100',
+							)}>
 							B&W
 						</button>
 					</div>
@@ -454,31 +463,31 @@ export default function AsciiArtComponent() {
 					<div className="space-y-2">
 						<button
 							onClick={() => handleDownload('txt')}
-							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2">
+							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white p-2 rounded-sm flex items-center justify-center gap-2">
 							<IconDownload size={20} />
 							<span>TXT</span>
 						</button>
 						<button
 							onClick={() => handleDownload('jpg-bw')}
-							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2">
+							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white p-2 rounded-sm flex items-center justify-center gap-2">
 							<IconDownload size={20} />
 							<span>JPG (B&W)</span>
 						</button>
 						<button
 							onClick={() => handleDownload('jpg-color')}
-							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2">
+							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white p-2 rounded-sm flex items-center justify-center gap-2">
 							<IconDownload size={20} />
 							<span>JPG (Color)</span>
 						</button>
 						<button
 							onClick={() => handleDownload('webp-bw')}
-							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2">
+							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white p-2 rounded-sm flex items-center justify-center gap-2">
 							<IconDownload size={20} />
 							<span>WebP (B&W)</span>
 						</button>
 						<button
 							onClick={() => handleDownload('webp-color')}
-							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white font-bold p-2 rounded-sm flex items-center justify-center gap-2">
+							className="w-full bg-zinc-500 hover:bg-zinc-700 text-white p-2 rounded-sm flex items-center justify-center gap-2">
 							<IconDownload size={20} />
 							<span>WebP (Color)</span>
 						</button>
