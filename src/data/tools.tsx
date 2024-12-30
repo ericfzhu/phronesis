@@ -72,13 +72,13 @@ export const TOOLS: Tool[] = [
 		description: 'Convert an image to ASCII art',
 		component: tools.AsciiArtComponent,
 	},
-	{
-		name: 'Flatpack',
-		href: '/flatpack',
-		preview: 'previews/flatpack.jpg',
-		description: 'Convert a project into a single text file',
-		component: tools.FlatpackComponent,
-	},
+	// {
+	// 	name: 'Flatpack',
+	// 	href: '/flatpack',
+	// 	preview: 'previews/flatpack.jpg',
+	// 	description: 'Convert a project into a single text file',
+	// 	component: tools.FlatpackComponent,
+	// },
 ];
 
 export function getToolByPath(path: string): Tool | undefined {
