@@ -1,0 +1,114 @@
+[
+	{
+		"name": "dior",
+		"tags": ["sneaker", "dior"]
+	},
+	{
+		"name": "amiri",
+		"tags": ["sneaker", "amiri"]
+	},
+	{
+		"name": "adidas fog",
+		"tags": ["sneaker", "adidas"]
+	},
+	{
+		"name": "nike jac",
+		"tags": ["sneaker", "nike"]
+	},
+	{
+		"name": "nike off white mid green",
+		"tags": ["sneaker", "nike", "offwhite"]
+	},
+	{
+		"name": "nike off white mid yellow",
+		"tags": ["sneaker", "nike", "offwhite"]
+	},
+	{
+		"name": "ooo red",
+		"tags": ["sneaker", "offwhite"]
+	},
+	{
+		"name": "ooo white",
+		"tags": ["sneaker", "offwhite"]
+	},
+	{
+		"name": "ooo blue",
+		"tags": ["sneaker", "offwhite"]
+	},
+	{
+		"name": "offwhite derby",
+		"tags": ["leather", "offwhite"]
+	},
+	{
+		"name": "offwhite slip on",
+		"tags": ["dad", "offwhite"]
+	},
+	{
+		"name": "marten",
+		"tags": ["leather", "marten"]
+	},
+	{
+		"name": "mschf black",
+		"tags": ["sneaker", "mschf"]
+	},
+	{
+		"name": "mschf white",
+		"tags": ["sneaker", "mschf"]
+	},
+	{
+		"name": "bape white",
+		"tags": ["sneaker", "bape"]
+	},
+	{
+		"name": "bape denim",
+		"tags": ["sneaker", "bape"]
+	},
+	{
+		"name": "bape patent",
+		"tags": ["sneaker", "bape"]
+	},
+	{
+		"name": "axel arigato area",
+		"tags": ["sneaker", "axel"]
+	},
+	{
+		"name": "axel arigato marathon",
+		"tags": ["dad", "axel"]
+	},
+	{
+		"name": "balenciaga triple s",
+		"tags": ["dad", "balenciaga"]
+	},
+	{
+		"name": "balenciaga track",
+		"tags": ["dad", "balenciaga"]
+	},
+	{
+		"name": "new balance silver",
+		"tags": ["dad", "nb"]
+	},
+	{
+		"name": "new balance runner",
+		"tags": ["dad", "nb"]
+	},
+	{
+		"name": "coach",
+		"tags": ["canvas", "coach"]
+	},
+	{
+		"name": "balenciaga paris",
+		"tags": ["canvas", "balenciaga"]
+	},
+	{
+		"name": "converse chuck",
+		"tags": ["canvas", "converse"]
+	},
+	{
+		"name": "yeezy runner",
+		"tags": ["yeezy"]
+	},
+	{
+		"name": "yeezy 550",
+		"tags": ["yeezy"]
+	}
+]

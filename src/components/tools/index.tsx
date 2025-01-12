@@ -3,6 +3,7 @@ import ColorPickerComponent from './ColorPickerComponent';
 import DotPatternComponent from './DotPatternComponent';
 import FlatpackComponent from './FlatpackComponent';
 import GaussianBlurComponent from './GaussianBlurComponent';
+import ItemGrouping from './Grouping';
 import ImageConverterComponent from './ImageConverterComponent';
 import LoremIpsumComponent from './LoremIpsumComponent';
 import SquareIconComponent from './SquareIconComponent';
@@ -20,4 +21,5 @@ export {
 	StringEscapeComponent,
 	WordCounterComponent,
 	FlatpackComponent,
+	ItemGrouping,
 };
