@@ -79,13 +79,6 @@ export const TOOLS: Tool[] = [
 		description: 'Convert a folder into a single text file for prompting',
 		component: tools.FlatpackComponent,
 	},
-	{
-		name: 'grouping',
-		href: '/grouping',
-		preview: 'previews/grouping.webp',
-		description: 'Group things together based on tag',
-		component: tools.ItemGrouping,
-	},
 ];
 
 export function getToolByPath(path: string): Tool | undefined {
